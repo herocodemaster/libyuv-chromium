@@ -2,7 +2,7 @@
 .landmines
 pin-log.txt
 /base
-/build
+*.bak
 /buildtools
 /chromium/.gclient.tmp
 /chromium/.gclient.tmp_entries

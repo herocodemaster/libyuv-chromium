@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<makefile>
+	<include file="../../../uits_build/build/nt/Common.bkl"/>
+	
+	<lib id="libyuv" template="hc-common">
+		<libname>libyuv$(HC_DR_POSTFIX_DEFINE)$(HC_LIB64ARCH_DEFINE)</libname>
+		<define>Strict</define>
+		<define>_CRT_SECURE_NO_DEPRECATE</define>
+		<define>_CRT_NONSTDC_NO_DEPRECATE</define>
+		<define>UNA_PLATFORM_NT=1</define>
+		<include>..$(DIRSEP)..$(DIRSEP)include</include>
+		<include>..$(DIRSEP)..$(DIRSEP)src</include>
+		<sources>
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)compare.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)compare_common.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)compare_neon.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)compare_neon64.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)compare_gcc.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)compare_win.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert_argb.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert_from.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert_from_argb.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert_jpeg.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert_to_argb.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)convert_to_i420.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)cpu_id.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)mjpeg_decoder.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)mjpeg_validate.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)planar_functions.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_any.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_argb.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_common.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_mips.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_neon.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_neon64.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_gcc.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)rotate_win.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_any.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_common.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_mips.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_msa.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_neon.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_neon64.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_gcc.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)row_win.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_any.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_argb.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_common.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_mips.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_neon.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_neon64.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_gcc.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)scale_win.cc
+			..$(DIRSEP)..$(DIRSEP)source$(DIRSEP)video_common.cc
+		</sources>
+		<runtime-libs>$(HC_RUNTIME_DEFINE)</runtime-libs>
+		<debug-info>on</debug-info>
+		<debug-runtime-libs>$(HC_RUNTIME_DEBUG_DEFINE)</debug-runtime-libs>
+		<optimize>$(HC_OPTIMIZE_ENABLE)</optimize>
+		<threading>multi</threading>
+		<postlink-command>if not exist $(RELEASE_INC_DIR)$(DIRSEP)libyuv mkdir $(RELEASE_INC_DIR)$(DIRSEP)libyuv</postlink-command>
+		<postlink-command>copy /y ..$(DIRSEP)..$(DIRSEP)include$(DIRSEP)*.h $(RELEASE_INC_DIR)$(DIRSEP)libyuv</postlink-command>
+		<postlink-command>if not exist $(RELEASE_LIB_DIR) mkdir $(RELEASE_LIB_DIR)</postlink-command>
+		<postlink-command>copy /y $(BUILDDIR)$(DIRSEP)libyuv$(HC_DR_POSTFIX_DEFINE)$(HC_LIB64ARCH_DEFINE).lib $(RELEASE_LIB_DIR)</postlink-command>
+		<postlink-command>copy /y $(BUILDDIR)$(DIRSEP)libyuv$(HC_DR_POSTFIX_DEFINE)$(HC_LIB64ARCH_DEFINE).pdb $(RELEASE_LIB_DIR)</postlink-command>
+	</lib>
+</makefile>
