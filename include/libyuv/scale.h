@@ -14,7 +14,7 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
@@ -136,7 +136,7 @@ void SetUseReferenceImpl(LIBYUV_BOOL use);
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_SCALE_H_

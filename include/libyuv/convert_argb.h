@@ -21,7 +21,7 @@
 // TODO(fbarchard): Some of these functions lack parameter setting.
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
@@ -448,7 +448,7 @@ int ConvertToARGB(const uint8* src_frame,
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_CONVERT_ARGB_H_

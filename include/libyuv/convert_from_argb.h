@@ -14,7 +14,7 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
@@ -259,7 +259,7 @@ int ARGBToUYVY(const uint8* src_argb,
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_CONVERT_FROM_ARGB_H_

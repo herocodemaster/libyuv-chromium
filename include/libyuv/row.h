@@ -16,15 +16,15 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
 #define IS_ALIGNED(p, a) (!((uintptr_t)(p) & ((a)-1)))
 
 #define align_buffer_64(var, size)                                       \
-  uint8* var##_mem = (uint8*)(malloc((size) + 63));         /* NOLINT */ \
-  uint8* var = (uint8*)(((intptr_t)(var##_mem) + 63) & ~63) /* NOLINT */
+  var##_mem = (uint8*)(malloc((size) + 63));         /* NOLINT */ \
+  var = (uint8*)(((intptr_t)(var##_mem) + 63) & ~63) /* NOLINT */
 
 #define free_aligned_buffer_64(var) \
   free(var##_mem);                  \
@@ -2662,7 +2662,7 @@ void ARGBLumaColorTableRow_SSSE3(const uint8* src_argb,
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_ROW_H_

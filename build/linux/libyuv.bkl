@@ -1,15 +1,18 @@
 <?xml version="1.0"?>
 <makefile>
-	<include file="../../../uits_build/build/nt/Common.bkl"/>
-	
-	<lib id="libyuv" template="hc-common">
-		<libname>libyuv$(HC_DR_POSTFIX_DEFINE)$(HC_LIB64ARCH_DEFINE)</libname>
-		<define>Strict</define>
-		<define>_CRT_SECURE_NO_DEPRECATE</define>
-		<define>_CRT_NONSTDC_NO_DEPRECATE</define>
-		<define>UNA_PLATFORM_NT=1</define>
+	<include file="../../../uits_build/build/linux/common.bkl"/>
+
+	<lib id="yuv">
+		<libname>yuv$(HC_LIB64ARCH_DEFINE)</libname>
+		<define>UNA_PLATFORM_LINUX=1</define>
+		<define>_GNU_SOURCE</define>
+		<define>_LARGEFILE_SOURCE</define>
+		<define>_FILE_OFFSET_BITS=64</define>
 		<include>..$(DIRSEP)..$(DIRSEP)include</include>
-		<include>..$(DIRSEP)..$(DIRSEP)src</include>
+		<include>..$(DIRSEP)..$(DIRSEP)source</include>
+		<headers>
+			libyuv.h
+		</headers>
 		<sources>
 			..$(DIRSEP)..$(DIRSEP)src$(DIRSEP)compare.c
 			..$(DIRSEP)..$(DIRSEP)src$(DIRSEP)compare_common.c
@@ -55,15 +58,14 @@
 			..$(DIRSEP)..$(DIRSEP)src$(DIRSEP)scale_win.c
 			..$(DIRSEP)..$(DIRSEP)src$(DIRSEP)video_common.c
 		</sources>
-		<runtime-libs>$(HC_RUNTIME_DEFINE)</runtime-libs>
-		<debug-info>on</debug-info>
-		<debug-runtime-libs>$(HC_RUNTIME_DEBUG_DEFINE)</debug-runtime-libs>
+		<cflags>-fPIC -DPIC</cflags>
+		<cflags>$(HC_ARCH_CFLAGS_DEFINE)</cflags>
+		<cflags>-ansi -pedantic -Wall -Wextra -Wno-unused-parameter -fno-strict-aliasing</cflags>
 		<optimize>$(HC_OPTIMIZE_ENABLE)</optimize>
+		<debug-info>$(HC_DEBUG_ENABLE)</debug-info>
 		<threading>multi</threading>
-		<postlink-command>if not exist $(RELEASE_INC_DIR)$(DIRSEP)libyuv mkdir $(RELEASE_INC_DIR)$(DIRSEP)libyuv</postlink-command>
-		<postlink-command>copy /y ..$(DIRSEP)..$(DIRSEP)include$(DIRSEP)*.h $(RELEASE_INC_DIR)$(DIRSEP)libyuv</postlink-command>
-		<postlink-command>if not exist $(RELEASE_LIB_DIR) mkdir $(RELEASE_LIB_DIR)</postlink-command>
-		<postlink-command>copy /y $(BUILDDIR)$(DIRSEP)libyuv$(HC_DR_POSTFIX_DEFINE)$(HC_LIB64ARCH_DEFINE).lib $(RELEASE_LIB_DIR)</postlink-command>
-		<postlink-command>copy /y $(BUILDDIR)$(DIRSEP)libyuv$(HC_DR_POSTFIX_DEFINE)$(HC_LIB64ARCH_DEFINE).pdb $(RELEASE_LIB_DIR)</postlink-command>
+		<postlink-command>cp -f $(BUILDDIR)$(DIRSEP)libyuv$(HC_LIB64ARCH_DEFINE).a $(BUILDDIR)$(DIRSEP)libyuv$(HC_LIB64ARCH_DEFINE).lib</postlink-command>
+		<postlink-command>mkdir -p $(RELEASE_LIB_DIR)</postlink-command>
+		<postlink-command>cp -f $(BUILDDIR)$(DIRSEP)libyuv$(HC_LIB64ARCH_DEFINE).lib $(RELEASE_LIB_DIR)</postlink-command>
 	</lib>
 </makefile>

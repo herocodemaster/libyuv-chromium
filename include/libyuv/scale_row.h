@@ -15,7 +15,7 @@
 #include "libyuv/scale.h"
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
@@ -796,7 +796,7 @@ void ScaleRowDown38_3_Box_DSPR2(const uint8* src_ptr,
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_SCALE_ROW_H_

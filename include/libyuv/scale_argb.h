@@ -15,7 +15,7 @@
 #include "libyuv/scale.h"  // For FilterMode
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
@@ -70,7 +70,7 @@ int YUVToARGBScaleClip(const uint8* src_y,
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_SCALE_ARGB_H_

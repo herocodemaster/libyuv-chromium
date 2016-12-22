@@ -18,7 +18,7 @@
 #include "libyuv/convert_argb.h"
 
 #ifdef __cplusplus
-namespace libyuv {
+//namespace libyuv {
 extern "C" {
 #endif
 
@@ -790,7 +790,7 @@ int ARGBSobelXY(const uint8* src_argb,
 
 #ifdef __cplusplus
 }  // extern "C"
-}  // namespace libyuv
+//}  // namespace libyuv
 #endif
 
 #endif  // INCLUDE_LIBYUV_PLANAR_FUNCTIONS_H_
