@@ -14,7 +14,6 @@
 #include "libyuv/row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -58,9 +57,8 @@ uint32 SumSquareError_NEON(const uint8* src_a, const uint8* src_b, int count) {
   return sse;
 }
 
-#endif  // defined(__ARM_NEON__) && !defined(__aarch64__)
+#endif  /* defined(__ARM_NEON__) && !defined(__aarch64__)*/
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

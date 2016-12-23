@@ -14,20 +14,19 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Compute a hash for specified memory. Seed of 5381 recommended.
+/* Compute a hash for specified memory. Seed of 5381 recommended.*/
 LIBYUV_API
 uint32 HashDjb2(const uint8* src, uint64 count, uint32 seed);
 
-// Scan an opaque argb image and return fourcc based on alpha offset.
-// Returns FOURCC_ARGB, FOURCC_BGRA, or 0 if unknown.
+/* Scan an opaque argb image and return fourcc based on alpha offset.
+Returns FOURCC_ARGB, FOURCC_BGRA, or 0 if unknown. */
 LIBYUV_API
 uint32 ARGBDetect(const uint8* argb, int stride_argb, int width, int height);
 
-// Sum Square Error - used to compute Mean Square Error or PSNR.
+/* Sum Square Error - used to compute Mean Square Error or PSNR.*/
 LIBYUV_API
 uint64 ComputeSumSquareError(const uint8* src_a, const uint8* src_b, int count);
 
@@ -93,8 +92,7 @@ double I420Ssim(const uint8* src_y_a,
                 int height);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_COMPARE_H_
+#endif /* INCLUDE_LIBYUV_COMPARE_H_ */

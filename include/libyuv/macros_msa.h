@@ -36,7 +36,7 @@
                  : [psrc_ld_m] "m"(*psrc_ld_m));     \
     val_m;                                           \
   })
-#else  // !(__mips == 64)
+#else  /* !(__mips == 64)*/
 #define LD(psrc)                                                       \
   ({                                                                   \
     uint8* psrc_ld_m = (uint8*)(psrc); /* NOLINT */                    \
@@ -49,8 +49,8 @@
     val_m = (uint64)(val_m | (uint64)val0_m);             /* NOLINT */ \
     val_m;                                                             \
   })
-#endif  // (__mips == 64)
-#else   // !(__mips_isa_rev >= 6)
+#endif  /* (__mips == 64)*/
+#else   /* !(__mips_isa_rev >= 6)*/
 #define LW(psrc)                                      \
   ({                                                  \
     uint8* psrc_lw_m = (uint8*)(psrc); /* NOLINT */   \
@@ -71,7 +71,7 @@
                  : [psrc_ld_m] "m"(*psrc_ld_m));      \
     val_m;                                            \
   })
-#else  // !(__mips == 64)
+#else  /* !(__mips == 64)*/
 #define LD(psrc)                                                       \
   ({                                                                   \
     uint8* psrc_ld_m = (uint8*)(psrc); /* NOLINT */                    \
@@ -84,10 +84,10 @@
     val_m = (uint64)(val_m | (uint64)val0_m);             /* NOLINT */ \
     val_m;                                                             \
   })
-#endif  // (__mips == 64)
-#endif  // (__mips_isa_rev >= 6)
+#endif  /* (__mips == 64)*/
+#endif  /* (__mips_isa_rev >= 6)*/
 
-// TODO(fbarchard): Consider removing __VAR_ARGS versions.
+/* TODO(fbarchard): Consider removing __VAR_ARGS versions.*/
 #define LD_B(RTYPE, psrc) *((RTYPE*)(psrc)) /* NOLINT */
 #define LD_UB(...) LD_B(v16u8, __VA_ARGS__)
 
@@ -135,7 +135,7 @@
   }
 #define ST_UB4(...) ST_B4(v16u8, __VA_ARGS__)
 
-// TODO(fbarchard): Consider using __msa_vshf_b and __msa_ilvr_b directly.
+/* TODO(fbarchard): Consider using __msa_vshf_b and __msa_ilvr_b directly.*/
 /* Description : Shuffle byte vector elements as per mask vector
    Arguments   : Inputs  - in0, in1, in2, in3, mask0, mask1
                  Outputs - out0, out1
@@ -166,4 +166,4 @@
 
 #endif /* !defined(LIBYUV_DISABLE_MSA) && defined(__mips_msa) */
 
-#endif  // INCLUDE_LIBYUV_MACROS_MSA_H_
+#endif  /* INCLUDE_LIBYUV_MACROS_MSA_H_*/

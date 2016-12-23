@@ -14,11 +14,10 @@
 #include "libyuv/cpu_id.h"
 #include "libyuv/planar_functions.h"
 #include "libyuv/rotate.h"
-#include "libyuv/scale.h"  // For ScalePlane()
+#include "libyuv/scale.h"  /* For ScalePlane()*/
 #include "libyuv/row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -27,7 +26,7 @@ static __inline int Abs(int v) {
   return v >= 0 ? v : -v;
 }
 
-// Any I4xx To I420 format with mirroring.
+/* Any I4xx To I420 format with mirroring.*/
 static int I4xxToI420(const uint8* src_y,
                       int src_stride_y,
                       const uint8* src_u,
@@ -62,9 +61,9 @@ static int I4xxToI420(const uint8* src_y,
   return 0;
 }
 
-// Copy I420 with optional flipping
-// TODO(fbarchard): Use Scale plane which supports mirroring, but ensure
-// is does row coalescing.
+/* Copy I420 with optional flipping*/
+/* TODO(fbarchard): Use Scale plane which supports mirroring, but ensure*/
+/* is does row coalescing.*/
 LIBYUV_API
 int I420Copy(const uint8* src_y,
              int src_stride_y,
@@ -85,7 +84,7 @@ int I420Copy(const uint8* src_y,
   if (!src_u || !src_v || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     halfheight = (height + 1) >> 1;
@@ -100,14 +99,14 @@ int I420Copy(const uint8* src_y,
   if (dst_y) {
     CopyPlane(src_y, src_stride_y, dst_y, dst_stride_y, width, height);
   }
-  // Copy UV planes.
+  /* Copy UV planes.*/
   CopyPlane(src_u, src_stride_u, dst_u, dst_stride_u, halfwidth, halfheight);
   CopyPlane(src_v, src_stride_v, dst_v, dst_stride_v, halfwidth, halfheight);
   return 0;
 }
 
-// 422 chroma is 1/2 width, 1x height
-// 420 chroma is 1/2 width, 1/2 height
+/* 422 chroma is 1/2 width, 1x height*/
+/* 420 chroma is 1/2 width, 1/2 height*/
 LIBYUV_API
 int I422ToI420(const uint8* src_y,
                int src_stride_y,
@@ -129,8 +128,8 @@ int I422ToI420(const uint8* src_y,
                     dst_v, dst_stride_v, width, height, src_uv_width, height);
 }
 
-// 444 chroma is 1x width, 1x height
-// 420 chroma is 1/2 width, 1/2 height
+/* 444 chroma is 1x width, 1x height*/
+/* 420 chroma is 1/2 width, 1/2 height*/
 LIBYUV_API
 int I444ToI420(const uint8* src_y,
                int src_stride_y,
@@ -151,7 +150,7 @@ int I444ToI420(const uint8* src_y,
                     dst_v, dst_stride_v, width, height, width, height);
 }
 
-// I400 is greyscale typically used in MJPG
+/* I400 is greyscale typically used in MJPG*/
 LIBYUV_API
 int I400ToI420(const uint8* src_y,
                int src_stride_y,
@@ -168,7 +167,7 @@ int I400ToI420(const uint8* src_y,
   if (!dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     halfheight = (height + 1) >> 1;
@@ -218,7 +217,7 @@ static void CopyPlane2(const uint8* src,
   }
 #endif
 
-  // Copy plane
+  /* Copy plane*/
   for (y = 0; y < height - 1; y += 2) {
     CopyRow(src, dst, width);
     CopyRow(src + src_stride_0, dst + dst_stride, width);
@@ -230,15 +229,15 @@ static void CopyPlane2(const uint8* src,
   }
 }
 
-// Support converting from FOURCC_M420
-// Useful for bandwidth constrained transports like USB 1.0 and 2.0 and for
-// easy conversion to I420.
-// M420 format description:
-// M420 is row biplanar 420: 2 rows of Y and 1 row of UV.
-// Chroma is half width / half height. (420)
-// src_stride_m420 is row planar. Normally this will be the width in pixels.
-//   The UV plane is half width, but 2 values, so src_stride_m420 applies to
-//   this as well as the two Y planes.
+/* Support converting from FOURCC_M420*/
+/* Useful for bandwidth constrained transports like USB 1.0 and 2.0 and for*/
+/* easy conversion to I420.*/
+/* M420 format description:*/
+/* M420 is row biplanar 420: 2 rows of Y and 1 row of UV.*/
+/* Chroma is half width / half height. (420)*/
+/* src_stride_m420 is row planar. Normally this will be the width in pixels.*/
+/*   The UV plane is half width, but 2 values, so src_stride_m420 applies to*/
+/*   this as well as the two Y planes.*/
 static int X420ToI420(const uint8* src_y,
                       int src_stride_y0,
                       int src_stride_y1,
@@ -257,7 +256,7 @@ static int X420ToI420(const uint8* src_y,
   if (!src_uv || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     halfheight = (height + 1) >> 1;
@@ -270,14 +269,14 @@ static int X420ToI420(const uint8* src_y,
     dst_stride_u = -dst_stride_u;
     dst_stride_v = -dst_stride_v;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_y0 == width && src_stride_y1 == width &&
       dst_stride_y == width) {
     width *= height;
     height = 1;
     src_stride_y0 = src_stride_y1 = dst_stride_y = 0;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_uv == halfwidth * 2 && dst_stride_u == halfwidth &&
       dst_stride_v == halfwidth) {
     halfwidth *= halfheight;
@@ -294,14 +293,14 @@ static int X420ToI420(const uint8* src_y,
     }
   }
 
-  // Split UV plane - NV12 / NV21
+  /* Split UV plane - NV12 / NV21*/
   SplitUVPlane(src_uv, src_stride_uv, dst_u, dst_stride_u, dst_v, dst_stride_v,
                halfwidth, halfheight);
 
   return 0;
 }
 
-// Convert NV12 to I420.
+/* Convert NV12 to I420.*/
 LIBYUV_API
 int NV12ToI420(const uint8* src_y,
                int src_stride_y,
@@ -320,7 +319,7 @@ int NV12ToI420(const uint8* src_y,
                     dst_stride_v, width, height);
 }
 
-// Convert NV21 to I420.  Same as NV12 but u and v pointers swapped.
+/* Convert NV21 to I420.  Same as NV12 but u and v pointers swapped.*/
 LIBYUV_API
 int NV21ToI420(const uint8* src_y,
                int src_stride_y,
@@ -339,7 +338,7 @@ int NV21ToI420(const uint8* src_y,
                     dst_stride_u, width, height);
 }
 
-// Convert M420 to I420.
+/* Convert M420 to I420.*/
 LIBYUV_API
 int M420ToI420(const uint8* src_m420,
                int src_stride_m420,
@@ -357,7 +356,7 @@ int M420ToI420(const uint8* src_m420,
                     width, height);
 }
 
-// Convert YUY2 to I420.
+/* Convert YUY2 to I420.*/
 LIBYUV_API
 int YUY2ToI420(const uint8* src_yuy2,
                int src_stride_yuy2,
@@ -374,7 +373,7 @@ int YUY2ToI420(const uint8* src_yuy2,
                       uint8* dst_v, int width) = YUY2ToUVRow_C;
   void (*YUY2ToYRow)(const uint8* src_yuy2, uint8* dst_y, int width) =
       YUY2ToYRow_C;
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_yuy2 = src_yuy2 + (height - 1) * src_stride_yuy2;
@@ -437,7 +436,7 @@ int YUY2ToI420(const uint8* src_yuy2,
   return 0;
 }
 
-// Convert UYVY to I420.
+/* Convert UYVY to I420.*/
 LIBYUV_API
 int UYVYToI420(const uint8* src_uyvy,
                int src_stride_uyvy,
@@ -454,7 +453,7 @@ int UYVYToI420(const uint8* src_uyvy,
                       uint8* dst_v, int width) = UYVYToUVRow_C;
   void (*UYVYToYRow)(const uint8* src_uyvy, uint8* dst_y, int width) =
       UYVYToYRow_C;
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_uyvy = src_uyvy + (height - 1) * src_stride_uyvy;
@@ -517,7 +516,7 @@ int UYVYToI420(const uint8* src_uyvy,
   return 0;
 }
 
-// Convert ARGB to I420.
+/* Convert ARGB to I420.*/
 LIBYUV_API
 int ARGBToI420(const uint8* src_argb,
                int src_stride_argb,
@@ -537,7 +536,7 @@ int ARGBToI420(const uint8* src_argb,
   if (!src_argb || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
@@ -612,7 +611,7 @@ int ARGBToI420(const uint8* src_argb,
   return 0;
 }
 
-// Convert BGRA to I420.
+/* Convert BGRA to I420.*/
 LIBYUV_API
 int BGRAToI420(const uint8* src_bgra,
                int src_stride_bgra,
@@ -632,7 +631,7 @@ int BGRAToI420(const uint8* src_bgra,
   if (!src_bgra || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_bgra = src_bgra + (height - 1) * src_stride_bgra;
@@ -681,7 +680,7 @@ int BGRAToI420(const uint8* src_bgra,
   return 0;
 }
 
-// Convert ABGR to I420.
+/* Convert ABGR to I420.*/
 LIBYUV_API
 int ABGRToI420(const uint8* src_abgr,
                int src_stride_abgr,
@@ -701,7 +700,7 @@ int ABGRToI420(const uint8* src_abgr,
   if (!src_abgr || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_abgr = src_abgr + (height - 1) * src_stride_abgr;
@@ -750,7 +749,7 @@ int ABGRToI420(const uint8* src_abgr,
   return 0;
 }
 
-// Convert RGBA to I420.
+/* Convert RGBA to I420.*/
 LIBYUV_API
 int RGBAToI420(const uint8* src_rgba,
                int src_stride_rgba,
@@ -770,7 +769,7 @@ int RGBAToI420(const uint8* src_rgba,
   if (!src_rgba || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_rgba = src_rgba + (height - 1) * src_stride_rgba;
@@ -819,7 +818,7 @@ int RGBAToI420(const uint8* src_rgba,
   return 0;
 }
 
-// Convert RGB24 to I420.
+/* Convert RGB24 to I420.*/
 LIBYUV_API
 int RGB24ToI420(const uint8* src_rgb24,
                 int src_stride_rgb24,
@@ -848,14 +847,14 @@ int RGB24ToI420(const uint8* src_rgb24,
   if (!src_rgb24 || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_rgb24 = src_rgb24 + (height - 1) * src_stride_rgb24;
     src_stride_rgb24 = -src_stride_rgb24;
   }
 
-// Neon version does direct RGB24 to YUV.
+/* Neon version does direct RGB24 to YUV.*/
 #if defined(HAS_RGB24TOYROW_NEON)
   if (TestCpuFlag(kCpuHasNEON)) {
     RGB24ToUVRow = RGB24ToUVRow_Any_NEON;
@@ -867,7 +866,7 @@ int RGB24ToI420(const uint8* src_rgb24,
       }
     }
   }
-// Other platforms do intermediate conversion from RGB24 to ARGB.
+/* Other platforms do intermediate conversion from RGB24 to ARGB.*/
 #else
 #if defined(HAS_RGB24TOARGBROW_SSSE3)
   if (TestCpuFlag(kCpuHasSSSE3)) {
@@ -898,7 +897,7 @@ int RGB24ToI420(const uint8* src_rgb24,
   }
 #endif
   {
-    // Allocate 2 rows of ARGB.
+    /* Allocate 2 rows of ARGB.*/
     const int kRowSize = (width * 4 + 31) & ~31;
     uint8* row, *row_mem;
     align_buffer_64(row, kRowSize * 2);
@@ -938,7 +937,7 @@ int RGB24ToI420(const uint8* src_rgb24,
 return 0;
 }
 
-// Convert RAW to I420.
+/* Convert RAW to I420.*/
 LIBYUV_API
 int RAWToI420(const uint8* src_raw,
               int src_stride_raw,
@@ -967,14 +966,14 @@ int RAWToI420(const uint8* src_raw,
   if (!src_raw || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_raw = src_raw + (height - 1) * src_stride_raw;
     src_stride_raw = -src_stride_raw;
   }
 
-// Neon version does direct RAW to YUV.
+/* Neon version does direct RAW to YUV.*/
 #if defined(HAS_RAWTOYROW_NEON)
   if (TestCpuFlag(kCpuHasNEON)) {
     RAWToUVRow = RAWToUVRow_Any_NEON;
@@ -986,7 +985,7 @@ int RAWToI420(const uint8* src_raw,
       }
     }
   }
-// Other platforms do intermediate conversion from RAW to ARGB.
+/* Other platforms do intermediate conversion from RAW to ARGB.*/
 #else
 #if defined(HAS_RAWTOARGBROW_SSSE3)
     if (TestCpuFlag(kCpuHasSSSE3)) {
@@ -1017,7 +1016,7 @@ int RAWToI420(const uint8* src_raw,
     }
 #endif
     {
-      // Allocate 2 rows of ARGB.
+      /* Allocate 2 rows of ARGB.*/
       const int kRowSize = (width * 4 + 31) & ~31;
       uint8* row, *row_mem;
       align_buffer_64(row, kRowSize * 2);
@@ -1057,7 +1056,7 @@ int RAWToI420(const uint8* src_raw,
 return 0;
 }
 
-// Convert RGB565 to I420.
+/* Convert RGB565 to I420.*/
 LIBYUV_API
 int RGB565ToI420(const uint8* src_rgb565,
                  int src_stride_rgb565,
@@ -1088,14 +1087,14 @@ int RGB565ToI420(const uint8* src_rgb565,
   if (!src_rgb565 || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_rgb565 = src_rgb565 + (height - 1) * src_stride_rgb565;
     src_stride_rgb565 = -src_stride_rgb565;
   }
 
-// Neon version does direct RGB565 to YUV.
+/* Neon version does direct RGB565 to YUV.*/
 #if defined(HAS_RGB565TOYROW_NEON)
   if (TestCpuFlag(kCpuHasNEON)) {
     RGB565ToUVRow = RGB565ToUVRow_Any_NEON;
@@ -1107,7 +1106,7 @@ int RGB565ToI420(const uint8* src_rgb565,
       }
     }
   }
-// Other platforms do intermediate conversion from RGB565 to ARGB.
+/* Other platforms do intermediate conversion from RGB565 to ARGB.*/
 #else
 #if defined(HAS_RGB565TOARGBROW_SSE2)
       if (TestCpuFlag(kCpuHasSSE2)) {
@@ -1146,7 +1145,7 @@ int RGB565ToI420(const uint8* src_rgb565,
       }
 #endif
       {
-        // Allocate 2 rows of ARGB.
+        /* Allocate 2 rows of ARGB.*/
         const int kRowSize = (width * 4 + 31) & ~31;
         uint8* row, *row_mem;
         align_buffer_64(row, kRowSize * 2);
@@ -1187,7 +1186,7 @@ int RGB565ToI420(const uint8* src_rgb565,
 return 0;
 }
 
-// Convert ARGB1555 to I420.
+/* Convert ARGB1555 to I420.*/
 LIBYUV_API
 int ARGB1555ToI420(const uint8* src_argb1555,
                    int src_stride_argb1555,
@@ -1219,14 +1218,14 @@ int ARGB1555ToI420(const uint8* src_argb1555,
       height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb1555 = src_argb1555 + (height - 1) * src_stride_argb1555;
     src_stride_argb1555 = -src_stride_argb1555;
   }
 
-// Neon version does direct ARGB1555 to YUV.
+/* Neon version does direct ARGB1555 to YUV.*/
 #if defined(HAS_ARGB1555TOYROW_NEON)
   if (TestCpuFlag(kCpuHasNEON)) {
     ARGB1555ToUVRow = ARGB1555ToUVRow_Any_NEON;
@@ -1238,7 +1237,7 @@ int ARGB1555ToI420(const uint8* src_argb1555,
       }
     }
   }
-// Other platforms do intermediate conversion from ARGB1555 to ARGB.
+/* Other platforms do intermediate conversion from ARGB1555 to ARGB.*/
 #else
 #if defined(HAS_ARGB1555TOARGBROW_SSE2)
         if (TestCpuFlag(kCpuHasSSE2)) {
@@ -1277,7 +1276,7 @@ int ARGB1555ToI420(const uint8* src_argb1555,
         }
 #endif
         {
-          // Allocate 2 rows of ARGB.
+          /* Allocate 2 rows of ARGB.*/
           const int kRowSize = (width * 4 + 31) & ~31;
           uint8* row, *row_mem;
           align_buffer_64(row, kRowSize * 2);
@@ -1319,7 +1318,7 @@ int ARGB1555ToI420(const uint8* src_argb1555,
 return 0;
 }
 
-// Convert ARGB4444 to I420.
+/* Convert ARGB4444 to I420.*/
 LIBYUV_API
 int ARGB4444ToI420(const uint8* src_argb4444,
                    int src_stride_argb4444,
@@ -1351,14 +1350,14 @@ int ARGB4444ToI420(const uint8* src_argb4444,
       height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb4444 = src_argb4444 + (height - 1) * src_stride_argb4444;
     src_stride_argb4444 = -src_stride_argb4444;
   }
 
-// Neon version does direct ARGB4444 to YUV.
+/* Neon version does direct ARGB4444 to YUV.*/
 #if defined(HAS_ARGB4444TOYROW_NEON)
   if (TestCpuFlag(kCpuHasNEON)) {
     ARGB4444ToUVRow = ARGB4444ToUVRow_Any_NEON;
@@ -1370,7 +1369,7 @@ int ARGB4444ToI420(const uint8* src_argb4444,
       }
     }
   }
-// Other platforms do intermediate conversion from ARGB4444 to ARGB.
+/* Other platforms do intermediate conversion from ARGB4444 to ARGB.*/
 #else
 #if defined(HAS_ARGB4444TOARGBROW_SSE2)
           if (TestCpuFlag(kCpuHasSSE2)) {
@@ -1429,7 +1428,7 @@ int ARGB4444ToI420(const uint8* src_argb4444,
           }
 #endif
           {
-            // Allocate 2 rows of ARGB.
+            /* Allocate 2 rows of ARGB.*/
             const int kRowSize = (width * 4 + 31) & ~31;
             uint8* row, *row_mem;
             align_buffer_64(row, kRowSize * 2);
@@ -1483,7 +1482,7 @@ static void SplitPixels(const uint8* src_u,
   }
 }
 
-// Convert Android420 to I420.
+/* Convert Android420 to I420.*/
 LIBYUV_API
 int Android420ToI420(const uint8* src_y,
                      int src_stride_y,
@@ -1507,7 +1506,7 @@ int Android420ToI420(const uint8* src_y,
   if (!src_u || !src_v || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     halfheight = (height + 1) >> 1;
@@ -1523,18 +1522,18 @@ int Android420ToI420(const uint8* src_y,
     CopyPlane(src_y, src_stride_y, dst_y, dst_stride_y, width, height);
   }
 
-  // Copy UV planes as is - I420
+  /* Copy UV planes as is - I420*/
   if (src_pixel_stride_uv == 1) {
     CopyPlane(src_u, src_stride_u, dst_u, dst_stride_u, halfwidth, halfheight);
     CopyPlane(src_v, src_stride_v, dst_v, dst_stride_v, halfwidth, halfheight);
     return 0;
-    // Split UV planes - NV21
+    /* Split UV planes - NV21*/
   } else if (src_pixel_stride_uv == 2 && vu_off == -1 &&
              src_stride_u == src_stride_v) {
     SplitUVPlane(src_v, src_stride_v, dst_v, dst_stride_v, dst_u, dst_stride_u,
                  halfwidth, halfheight);
     return 0;
-    // Split UV planes - NV12
+    /* Split UV planes - NV12*/
   } else if (src_pixel_stride_uv == 2 && vu_off == 1 &&
              src_stride_u == src_stride_v) {
     SplitUVPlane(src_u, src_stride_u, dst_u, dst_stride_u, dst_v, dst_stride_v,
@@ -1554,6 +1553,5 @@ int Android420ToI420(const uint8* src_y,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

@@ -11,16 +11,15 @@
 #include "libyuv/convert_from.h"
 
 #include "libyuv/basic_types.h"
-#include "libyuv/convert.h"  // For I420Copy
+#include "libyuv/convert.h"  /* For I420Copy*/
 #include "libyuv/cpu_id.h"
 #include "libyuv/planar_functions.h"
 #include "libyuv/rotate.h"
-#include "libyuv/scale.h"  // For ScalePlane()
+#include "libyuv/scale.h"  /* For ScalePlane()*/
 #include "libyuv/video_common.h"
 #include "libyuv/row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -29,7 +28,7 @@ static __inline int Abs(int v) {
   return v >= 0 ? v : -v;
 }
 
-// I420 To any I4xx YUV format with mirroring.
+/* I420 To any I4xx YUV format with mirroring.*/
 static int I420ToI4xx(const uint8* src_y,
                       int src_stride_y,
                       const uint8* src_u,
@@ -65,8 +64,8 @@ static int I420ToI4xx(const uint8* src_y,
   return 0;
 }
 
-// 420 chroma is 1/2 width, 1/2 height
-// 422 chroma is 1/2 width, 1x height
+/* 420 chroma is 1/2 width, 1/2 height*/
+/* 422 chroma is 1/2 width, 1x height*/
 LIBYUV_API
 int I420ToI422(const uint8* src_y,
                int src_stride_y,
@@ -90,8 +89,8 @@ int I420ToI422(const uint8* src_y,
                     dst_uv_height);
 }
 
-// 420 chroma is 1/2 width, 1/2 height
-// 444 chroma is 1x width, 1x height
+/* 420 chroma is 1/2 width, 1/2 height*/
+/* 444 chroma is 1x width, 1x height*/
 LIBYUV_API
 int I420ToI444(const uint8* src_y,
                int src_stride_y,
@@ -115,7 +114,7 @@ int I420ToI444(const uint8* src_y,
                     dst_uv_height);
 }
 
-// Copy to I400. Source can be I420,422,444,400,NV12,NV21
+/* Copy to I400. Source can be I420,422,444,400,NV12,NV21*/
 LIBYUV_API
 int I400Copy(const uint8* src_y,
              int src_stride_y,
@@ -126,7 +125,7 @@ int I400Copy(const uint8* src_y,
   if (!src_y || !dst_y || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_y = src_y + (height - 1) * src_stride_y;
@@ -154,13 +153,13 @@ int I422ToYUY2(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_yuy2 || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_yuy2 = dst_yuy2 + (height - 1) * dst_stride_yuy2;
     dst_stride_yuy2 = -dst_stride_yuy2;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_y == width && src_stride_u * 2 == width &&
       src_stride_v * 2 == width && dst_stride_yuy2 == width * 2) {
     width *= height;
@@ -212,7 +211,7 @@ int I420ToYUY2(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_yuy2 || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_yuy2 = dst_yuy2 + (height - 1) * dst_stride_yuy2;
@@ -276,13 +275,13 @@ int I422ToUYVY(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_uyvy || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_uyvy = dst_uyvy + (height - 1) * dst_stride_uyvy;
     dst_stride_uyvy = -dst_stride_uyvy;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_y == width && src_stride_u * 2 == width &&
       src_stride_v * 2 == width && dst_stride_uyvy == width * 2) {
     width *= height;
@@ -342,7 +341,7 @@ int I420ToUYVY(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_uyvy || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_uyvy = dst_uyvy + (height - 1) * dst_stride_uyvy;
@@ -388,7 +387,7 @@ int I420ToUYVY(const uint8* src_y,
   return 0;
 }
 
-// TODO(fbarchard): test negative height for invert.
+/* TODO(fbarchard): test negative height for invert.*/
 LIBYUV_API
 int I420ToNV12(const uint8* src_y,
                int src_stride_y,
@@ -435,7 +434,7 @@ int I420ToNV21(const uint8* src_y,
                     width, height);
 }
 
-// Convert I422 to RGBA with matrix
+/* Convert I422 to RGBA with matrix*/
 static int I420ToRGBAMatrix(const uint8* src_y,
                             int src_stride_y,
                             const uint8* src_u,
@@ -455,7 +454,7 @@ static int I420ToRGBAMatrix(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_rgba || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_rgba = dst_rgba + (height - 1) * dst_stride_rgba;
@@ -515,7 +514,7 @@ static int I420ToRGBAMatrix(const uint8* src_y,
   return 0;
 }
 
-// Convert I420 to RGBA.
+/* Convert I420 to RGBA.*/
 LIBYUV_API
 int I420ToRGBA(const uint8* src_y,
                int src_stride_y,
@@ -532,7 +531,7 @@ int I420ToRGBA(const uint8* src_y,
                           &kYuvI601Constants, width, height);
 }
 
-// Convert I420 to BGRA.
+/* Convert I420 to BGRA.*/
 LIBYUV_API
 int I420ToBGRA(const uint8* src_y,
                int src_stride_y,
@@ -545,13 +544,13 @@ int I420ToBGRA(const uint8* src_y,
                int width,
                int height) {
   return I420ToRGBAMatrix(src_y, src_stride_y, src_v,
-                          src_stride_v,  // Swap U and V
+                          src_stride_v,  /* Swap U and V*/
                           src_u, src_stride_u, dst_bgra, dst_stride_bgra,
-                          &kYvuI601Constants,  // Use Yvu matrix
+                          &kYvuI601Constants,  /* Use Yvu matrix*/
                           width, height);
 }
 
-// Convert I420 to RGB24 with matrix
+/* Convert I420 to RGB24 with matrix*/
 static int I420ToRGB24Matrix(const uint8* src_y,
                              int src_stride_y,
                              const uint8* src_u,
@@ -571,7 +570,7 @@ static int I420ToRGB24Matrix(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_rgb24 || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_rgb24 = dst_rgb24 + (height - 1) * dst_stride_rgb24;
@@ -622,7 +621,7 @@ static int I420ToRGB24Matrix(const uint8* src_y,
   return 0;
 }
 
-// Convert I420 to RGB24.
+/* Convert I420 to RGB24.*/
 LIBYUV_API
 int I420ToRGB24(const uint8* src_y,
                 int src_stride_y,
@@ -639,7 +638,7 @@ int I420ToRGB24(const uint8* src_y,
                            &kYuvI601Constants, width, height);
 }
 
-// Convert I420 to RAW.
+/* Convert I420 to RAW.*/
 LIBYUV_API
 int I420ToRAW(const uint8* src_y,
               int src_stride_y,
@@ -652,13 +651,13 @@ int I420ToRAW(const uint8* src_y,
               int width,
               int height) {
   return I420ToRGB24Matrix(src_y, src_stride_y, src_v,
-                           src_stride_v,  // Swap U and V
+                           src_stride_v,  /* Swap U and V*/
                            src_u, src_stride_u, dst_raw, dst_stride_raw,
-                           &kYvuI601Constants,  // Use Yvu matrix
+                           &kYvuI601Constants,  /* Use Yvu matrix*/
                            width, height);
 }
 
-// Convert I420 to ARGB1555.
+/* Convert I420 to ARGB1555.*/
 LIBYUV_API
 int I420ToARGB1555(const uint8* src_y,
                    int src_stride_y,
@@ -679,7 +678,7 @@ int I420ToARGB1555(const uint8* src_y,
       height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_argb1555 = dst_argb1555 + (height - 1) * dst_stride_argb1555;
@@ -731,7 +730,7 @@ int I420ToARGB1555(const uint8* src_y,
   return 0;
 }
 
-// Convert I420 to ARGB4444.
+/* Convert I420 to ARGB4444.*/
 LIBYUV_API
 int I420ToARGB4444(const uint8* src_y,
                    int src_stride_y,
@@ -752,7 +751,7 @@ int I420ToARGB4444(const uint8* src_y,
       height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_argb4444 = dst_argb4444 + (height - 1) * dst_stride_argb4444;
@@ -804,7 +803,7 @@ int I420ToARGB4444(const uint8* src_y,
   return 0;
 }
 
-// Convert I420 to RGB565.
+/* Convert I420 to RGB565.*/
 LIBYUV_API
 int I420ToRGB565(const uint8* src_y,
                  int src_stride_y,
@@ -824,7 +823,7 @@ int I420ToRGB565(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_rgb565 || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_rgb565 = dst_rgb565 + (height - 1) * dst_stride_rgb565;
@@ -875,12 +874,12 @@ int I420ToRGB565(const uint8* src_y,
   return 0;
 }
 
-// Ordered 8x8 dither for 888 to 565.  Values from 0 to 7.
+/* Ordered 8x8 dither for 888 to 565.  Values from 0 to 7.*/
 static const uint8 kDither565_4x4[16] = {
     0, 4, 1, 5, 6, 2, 7, 3, 1, 5, 0, 4, 7, 3, 6, 2,
 };
 
-// Convert I420 to RGB565 with dithering.
+/* Convert I420 to RGB565 with dithering.*/
 LIBYUV_API
 int I420ToRGB565Dither(const uint8* src_y,
                        int src_stride_y,
@@ -904,7 +903,7 @@ int I420ToRGB565Dither(const uint8* src_y,
   if (!src_y || !src_u || !src_v || !dst_rgb565 || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_rgb565 = dst_rgb565 + (height - 1) * dst_stride_rgb565;
@@ -978,14 +977,14 @@ int I420ToRGB565Dither(const uint8* src_y,
   }
 #endif
   {
-    // Allocate a row of argb.
+    /* Allocate a row of argb.*/
     uint8* row_argb, *row_argb_mem;
     align_buffer_64(row_argb, width * 4);
     for (y = 0; y < height; ++y) {
       I422ToARGBRow(src_y, src_u, src_v, row_argb, &kYuvI601Constants, width);
       ARGBToRGB565DitherRow(row_argb, dst_rgb565,
                             *(uint32*)(dither4x4 + ((y & 3) << 2)),
-                            width);  // NOLINT
+                            width);  /* NOLINT*/
       dst_rgb565 += dst_stride_rgb565;
       src_y += src_stride_y;
       if (y & 1) {
@@ -998,7 +997,7 @@ int I420ToRGB565Dither(const uint8* src_y,
   return 0;
 }
 
-// Convert I420 to specified format
+/* Convert I420 to specified format*/
 LIBYUV_API
 int ConvertFromI420(const uint8* y,
                     int y_stride,
@@ -1017,7 +1016,7 @@ int ConvertFromI420(const uint8* y,
     return -1;
   }
   switch (format) {
-    // Single plane formats
+    /* Single plane formats*/
     case FOURCC_YUY2:
       r = I420ToYUY2(y, y_stride, u, u_stride, v, v_stride, dst_sample,
                      dst_sample_stride ? dst_sample_stride : width * 2, width,
@@ -1094,9 +1093,9 @@ int ConvertFromI420(const uint8* y,
                      height);
       break;
     }
-    // TODO(fbarchard): Add M420.
-    // Triplanar formats
-    // TODO(fbarchard): halfstride instead of halfwidth
+    /* TODO(fbarchard): Add M420.*/
+    /* Triplanar formats*/
+    /* TODO(fbarchard): halfstride instead of halfwidth*/
     case FOURCC_I420:
     case FOURCC_YV12: {
       int halfwidth = (width + 1) / 2;
@@ -1145,14 +1144,13 @@ int ConvertFromI420(const uint8* y,
                      dst_u, width, dst_v, width, width, height);
       break;
     }
-    // Formats not supported - MJPG, biplanar, some rgb formats.
+    /* Formats not supported - MJPG, biplanar, some rgb formats.*/
     default:
-      return -1;  // unknown fourcc - return failure code.
+      return -1;  /* unknown fourcc - return failure code.*/
   }
   return r;
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

@@ -12,14 +12,13 @@
 #define INCLUDE_LIBYUV_ROTATE_ARGB_H_
 
 #include "libyuv/basic_types.h"
-#include "libyuv/rotate.h"  // For RotationMode.
+#include "libyuv/rotate.h"  /* For RotationMode.*/
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Rotate ARGB frame
+/* Rotate ARGB frame*/
 LIBYUV_API
 int ARGBRotate(const uint8* src_argb,
                int src_stride_argb,
@@ -30,8 +29,7 @@ int ARGBRotate(const uint8* src_argb,
                enum RotationMode mode);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_ROTATE_ARGB_H_
+#endif  /* INCLUDE_LIBYUV_ROTATE_ARGB_H_*/

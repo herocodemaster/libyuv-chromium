@@ -11,7 +11,6 @@
 #include "libyuv/video_common.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -28,22 +27,22 @@ static const struct FourCCAliasEntry kFourCCAliases[] = {
     {FOURCC_YU16, FOURCC_I422},
     {FOURCC_YU24, FOURCC_I444},
     {FOURCC_YUYV, FOURCC_YUY2},
-    {FOURCC_YUVS, FOURCC_YUY2},  // kCMPixelFormat_422YpCbCr8_yuvs
+    {FOURCC_YUVS, FOURCC_YUY2},  /* kCMPixelFormat_422YpCbCr8_yuvs*/
     {FOURCC_HDYC, FOURCC_UYVY},
-    {FOURCC_2VUY, FOURCC_UYVY},  // kCMPixelFormat_422YpCbCr8
-    {FOURCC_JPEG, FOURCC_MJPG},  // Note: JPEG has DHT while MJPG does not.
+    {FOURCC_2VUY, FOURCC_UYVY},  /* kCMPixelFormat_422YpCbCr8*/
+    {FOURCC_JPEG, FOURCC_MJPG},  /* Note: JPEG has DHT while MJPG does not.*/
     {FOURCC_DMB1, FOURCC_MJPG},
-    {FOURCC_BA81, FOURCC_BGGR},  // deprecated.
+    {FOURCC_BA81, FOURCC_BGGR},  /* deprecated.*/
     {FOURCC_RGB3, FOURCC_RAW},
     {FOURCC_BGR3, FOURCC_24BG},
-    {FOURCC_CM32, FOURCC_BGRA},  // kCMPixelFormat_32ARGB
-    {FOURCC_CM24, FOURCC_RAW},   // kCMPixelFormat_24RGB
-    {FOURCC_L555, FOURCC_RGBO},  // kCMPixelFormat_16LE555
-    {FOURCC_L565, FOURCC_RGBP},  // kCMPixelFormat_16LE565
-    {FOURCC_5551, FOURCC_RGBO},  // kCMPixelFormat_16LE5551
+    {FOURCC_CM32, FOURCC_BGRA},  /* kCMPixelFormat_32ARGB*/
+    {FOURCC_CM24, FOURCC_RAW},   /* kCMPixelFormat_24RGB*/
+    {FOURCC_L555, FOURCC_RGBO},  /* kCMPixelFormat_16LE555*/
+    {FOURCC_L565, FOURCC_RGBP},  /* kCMPixelFormat_16LE565*/
+    {FOURCC_5551, FOURCC_RGBO},  /* kCMPixelFormat_16LE5551*/
 };
-// TODO(fbarchard): Consider mapping kCMPixelFormat_32BGRA to FOURCC_ARGB.
-//  {FOURCC_BGRA, FOURCC_ARGB},  // kCMPixelFormat_32BGRA
+/* TODO(fbarchard): Consider mapping kCMPixelFormat_32BGRA to FOURCC_ARGB.*/
+/*  {FOURCC_BGRA, FOURCC_ARGB},  // kCMPixelFormat_32BGRA*/
 
 LIBYUV_API
 uint32 CanonicalFourCC(uint32 fourcc) {
@@ -53,11 +52,10 @@ uint32 CanonicalFourCC(uint32 fourcc) {
       return kFourCCAliases[i].canonical;
     }
   }
-  // Not an alias, so return it as-is.
+  /* Not an alias, so return it as-is.*/
   return fourcc;
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

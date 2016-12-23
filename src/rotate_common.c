@@ -12,7 +12,6 @@
 #include "libyuv/rotate_row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -101,6 +100,5 @@ void TransposeUVWxH_C(const uint8* src,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

@@ -14,11 +14,10 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Copy ARGB to ARGB.
+/* Copy ARGB to ARGB.*/
 #define ARGBToARGB ARGBCopy
 LIBYUV_API
 int ARGBCopy(const uint8* src_argb,
@@ -28,7 +27,7 @@ int ARGBCopy(const uint8* src_argb,
              int width,
              int height);
 
-// Convert ARGB To BGRA.
+/* Convert ARGB To BGRA.*/
 LIBYUV_API
 int ARGBToBGRA(const uint8* src_argb,
                int src_stride_argb,
@@ -37,7 +36,7 @@ int ARGBToBGRA(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To ABGR.
+/* Convert ARGB To ABGR.*/
 LIBYUV_API
 int ARGBToABGR(const uint8* src_argb,
                int src_stride_argb,
@@ -46,7 +45,7 @@ int ARGBToABGR(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To RGBA.
+/* Convert ARGB To RGBA.*/
 LIBYUV_API
 int ARGBToRGBA(const uint8* src_argb,
                int src_stride_argb,
@@ -55,7 +54,7 @@ int ARGBToRGBA(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To RGB24.
+/* Convert ARGB To RGB24.*/
 LIBYUV_API
 int ARGBToRGB24(const uint8* src_argb,
                 int src_stride_argb,
@@ -64,7 +63,7 @@ int ARGBToRGB24(const uint8* src_argb,
                 int width,
                 int height);
 
-// Convert ARGB To RAW.
+/* Convert ARGB To RAW.*/
 LIBYUV_API
 int ARGBToRAW(const uint8* src_argb,
               int src_stride_argb,
@@ -73,7 +72,7 @@ int ARGBToRAW(const uint8* src_argb,
               int width,
               int height);
 
-// Convert ARGB To RGB565.
+/* Convert ARGB To RGB565.*/
 LIBYUV_API
 int ARGBToRGB565(const uint8* src_argb,
                  int src_stride_argb,
@@ -82,11 +81,11 @@ int ARGBToRGB565(const uint8* src_argb,
                  int width,
                  int height);
 
-// Convert ARGB To RGB565 with 4x4 dither matrix (16 bytes).
-// Values in dither matrix from 0 to 7 recommended.
-// The order of the dither matrix is first byte is upper left.
-// TODO(fbarchard): Consider pointer to 2d array for dither4x4.
-// const uint8(*dither)[4][4];
+/* Convert ARGB To RGB565 with 4x4 dither matrix (16 bytes).*/
+/* Values in dither matrix from 0 to 7 recommended.*/
+/* The order of the dither matrix is first byte is upper left.*/
+/* TODO(fbarchard): Consider pointer to 2d array for dither4x4.*/
+/* const uint8(*dither)[4][4];*/
 LIBYUV_API
 int ARGBToRGB565Dither(const uint8* src_argb,
                        int src_stride_argb,
@@ -96,7 +95,7 @@ int ARGBToRGB565Dither(const uint8* src_argb,
                        int width,
                        int height);
 
-// Convert ARGB To ARGB1555.
+/* Convert ARGB To ARGB1555.*/
 LIBYUV_API
 int ARGBToARGB1555(const uint8* src_argb,
                    int src_stride_argb,
@@ -105,7 +104,7 @@ int ARGBToARGB1555(const uint8* src_argb,
                    int width,
                    int height);
 
-// Convert ARGB To ARGB4444.
+/* Convert ARGB To ARGB4444.*/
 LIBYUV_API
 int ARGBToARGB4444(const uint8* src_argb,
                    int src_stride_argb,
@@ -114,7 +113,7 @@ int ARGBToARGB4444(const uint8* src_argb,
                    int width,
                    int height);
 
-// Convert ARGB To I444.
+/* Convert ARGB To I444.*/
 LIBYUV_API
 int ARGBToI444(const uint8* src_argb,
                int src_stride_argb,
@@ -127,7 +126,7 @@ int ARGBToI444(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To I422.
+/* Convert ARGB To I422.*/
 LIBYUV_API
 int ARGBToI422(const uint8* src_argb,
                int src_stride_argb,
@@ -140,7 +139,7 @@ int ARGBToI422(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To I420. (also in convert.h)
+/* Convert ARGB To I420. (also in convert.h)*/
 LIBYUV_API
 int ARGBToI420(const uint8* src_argb,
                int src_stride_argb,
@@ -153,7 +152,7 @@ int ARGBToI420(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB to J420. (JPeg full range I420).
+/* Convert ARGB to J420. (JPeg full range I420).*/
 LIBYUV_API
 int ARGBToJ420(const uint8* src_argb,
                int src_stride_argb,
@@ -166,7 +165,7 @@ int ARGBToJ420(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB to J422.
+/* Convert ARGB to J422.*/
 LIBYUV_API
 int ARGBToJ422(const uint8* src_argb,
                int src_stride_argb,
@@ -179,7 +178,7 @@ int ARGBToJ422(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB to J400. (JPeg full range).
+/* Convert ARGB to J400. (JPeg full range).*/
 LIBYUV_API
 int ARGBToJ400(const uint8* src_argb,
                int src_stride_argb,
@@ -188,7 +187,7 @@ int ARGBToJ400(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB to I400.
+/* Convert ARGB to I400.*/
 LIBYUV_API
 int ARGBToI400(const uint8* src_argb,
                int src_stride_argb,
@@ -197,7 +196,7 @@ int ARGBToI400(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB to G. (Reverse of J400toARGB, which replicates G back to ARGB)
+/* Convert ARGB to G. (Reverse of J400toARGB, which replicates G back to ARGB)*/
 LIBYUV_API
 int ARGBToG(const uint8* src_argb,
             int src_stride_argb,
@@ -206,7 +205,7 @@ int ARGBToG(const uint8* src_argb,
             int width,
             int height);
 
-// Convert ARGB To NV12.
+/* Convert ARGB To NV12.*/
 LIBYUV_API
 int ARGBToNV12(const uint8* src_argb,
                int src_stride_argb,
@@ -217,7 +216,7 @@ int ARGBToNV12(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To NV21.
+/* Convert ARGB To NV21.*/
 LIBYUV_API
 int ARGBToNV21(const uint8* src_argb,
                int src_stride_argb,
@@ -228,7 +227,7 @@ int ARGBToNV21(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To NV21.
+/* Convert ARGB To NV21.*/
 LIBYUV_API
 int ARGBToNV21(const uint8* src_argb,
                int src_stride_argb,
@@ -239,7 +238,7 @@ int ARGBToNV21(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To YUY2.
+/* Convert ARGB To YUY2.*/
 LIBYUV_API
 int ARGBToYUY2(const uint8* src_argb,
                int src_stride_argb,
@@ -248,7 +247,7 @@ int ARGBToYUY2(const uint8* src_argb,
                int width,
                int height);
 
-// Convert ARGB To UYVY.
+/* Convert ARGB To UYVY.*/
 LIBYUV_API
 int ARGBToUYVY(const uint8* src_argb,
                int src_stride_argb,
@@ -258,8 +257,7 @@ int ARGBToUYVY(const uint8* src_argb,
                int height);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_CONVERT_FROM_ARGB_H_
+#endif  /* INCLUDE_LIBYUV_CONVERT_FROM_ARGB_H_*/

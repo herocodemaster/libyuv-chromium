@@ -14,11 +14,10 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// This module is for GCC Neon armv8 64 bit.
+/* This module is for GCC Neon armv8 64 bit.*/
 #if !defined(LIBYUV_DISABLE_NEON) && defined(__aarch64__)
 
 static uvec8 kVTbl4x4Transpose = {0, 4, 8,  12, 1, 5, 9,  13,
@@ -30,14 +29,14 @@ void TransposeWx8_NEON(const uint8* src,
                        int dst_stride,
                        int width) {
   const uint8* src_temp;
-  int64 width64 = (int64)width;  // Work around clang 3.4 warning.
+  int64 width64 = (int64)width;  /* Work around clang 3.4 warning.*/
   asm volatile (
-    // loops are on blocks of 8. loop will stop when
-    // counter gets to or below 0. starting the counter
-    // at w-8 allow for this
+    /* loops are on blocks of 8. loop will stop when*/
+    /* counter gets to or below 0. starting the counter*/
+    /* at w-8 allow for this*/
     "sub         %3, %3, #8                      \n"
 
-    // handle 8x8 blocks. this should be the majority of the plane
+    /* handle 8x8 blocks. this should be the majority of the plane*/
     "1:                                          \n"
       "mov         %0, %1                        \n"
 
@@ -104,24 +103,24 @@ void TransposeWx8_NEON(const uint8* src,
     MEMACCESS(0)
       "st1      {v22.8b}, [%0]                   \n"
 
-      "add         %1, %1, #8                    \n"  // src += 8
-      "add         %2, %2, %6, lsl #3            \n"  // dst += 8 * dst_stride
-      "subs        %3, %3, #8                    \n"  // w   -= 8
+      "add         %1, %1, #8                    \n"  /* src += 8*/
+      "add         %2, %2, %6, lsl #3            \n"  /* dst += 8 * dst_stride*/
+      "subs        %3, %3, #8                    \n"  /* w   -= 8*/
       "b.ge        1b                            \n"
 
-    // add 8 back to counter. if the result is 0 there are
-    // no residuals.
+    /* add 8 back to counter. if the result is 0 there are*/
+    /* no residuals.*/
     "adds        %3, %3, #8                      \n"
     "b.eq        4f                              \n"
 
-    // some residual, so between 1 and 7 lines left to transpose
+    /* some residual, so between 1 and 7 lines left to transpose*/
     "cmp         %3, #2                          \n"
     "b.lt        3f                              \n"
 
     "cmp         %3, #4                          \n"
     "b.lt        2f                              \n"
 
-    // 4x8 block
+    /* 4x8 block*/
     "mov         %0, %1                          \n"
     MEMACCESS(0)
     "ld1     {v0.s}[0], [%0], %5                 \n"
@@ -148,8 +147,8 @@ void TransposeWx8_NEON(const uint8* src,
     "tbl      v3.16b, {v0.16b}, v2.16b           \n"
     "tbl      v0.16b, {v1.16b}, v2.16b           \n"
 
-    // TODO(frkoenig): Rework shuffle above to
-    // write out with 4 instead of 8 writes.
+    /* TODO(frkoenig): Rework shuffle above to*/
+    /* write out with 4 instead of 8 writes.*/
     MEMACCESS(0)
     "st1 {v3.s}[0], [%0], %6                     \n"
     MEMACCESS(0)
@@ -169,17 +168,17 @@ void TransposeWx8_NEON(const uint8* src,
     MEMACCESS(0)
     "st1 {v0.s}[3], [%0]                         \n"
 
-    "add         %1, %1, #4                      \n"  // src += 4
-    "add         %2, %2, %6, lsl #2              \n"  // dst += 4 * dst_stride
-    "subs        %3, %3, #4                      \n"  // w   -= 4
+    "add         %1, %1, #4                      \n"  /* src += 4*/
+    "add         %2, %2, %6, lsl #2              \n"  /* dst += 4 * dst_stride*/
+    "subs        %3, %3, #4                      \n"  /* w   -= 4*/
     "b.eq        4f                              \n"
 
-    // some residual, check to see if it includes a 2x8 block,
-    // or less
+    /* some residual, check to see if it includes a 2x8 block,*/
+    /* or less*/
     "cmp         %3, #2                          \n"
     "b.lt        3f                              \n"
 
-    // 2x8 block
+    /* 2x8 block*/
     "2:                                          \n"
     "mov         %0, %1                          \n"
     MEMACCESS(0)
@@ -209,12 +208,12 @@ void TransposeWx8_NEON(const uint8* src,
     MEMACCESS(0)
     "st1     {v2.8b}, [%0]                       \n"
 
-    "add         %1, %1, #2                      \n"  // src += 2
-    "add         %2, %2, %6, lsl #1              \n"  // dst += 2 * dst_stride
-    "subs        %3, %3,  #2                     \n"  // w   -= 2
+    "add         %1, %1, #2                      \n"  /* src += 2*/
+    "add         %2, %2, %6, lsl #1              \n"  /* dst += 2 * dst_stride*/
+    "subs        %3, %3,  #2                     \n"  /* w   -= 2*/
     "b.eq        4f                              \n"
 
-    // 1x8 block
+    /* 1x8 block*/
     "3:                                          \n"
     MEMACCESS(1)
     "ld1         {v0.b}[0], [%1], %5             \n"
@@ -238,13 +237,13 @@ void TransposeWx8_NEON(const uint8* src,
 
     "4:                                          \n"
 
-    : "=&r"(src_temp),                            // %0
-      "+r"(src),                                  // %1
-      "+r"(dst),                                  // %2
-      "+r"(width64)                               // %3
-    : "r"(&kVTbl4x4Transpose),                    // %4
-      "r"(static_cast<ptrdiff_t>(src_stride)),    // %5
-      "r"(static_cast<ptrdiff_t>(dst_stride))     // %6
+    : "=&r"(src_temp),                            /* %0*/
+      "+r"(src),                                  /* %1*/
+      "+r"(dst),                                  /* %2*/
+      "+r"(width64)                               /* %3*/
+    : "r"(&kVTbl4x4Transpose),                    /* %4*/
+      "r"(static_cast<ptrdiff_t>(src_stride)),    /* %5*/
+      "r"(static_cast<ptrdiff_t>(dst_stride))     /* %6*/
     : "memory", "cc", "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7", "v16",
       "v17", "v18", "v19", "v20", "v21", "v22", "v23"
   );
@@ -262,14 +261,14 @@ void TransposeUVWx8_NEON(const uint8* src,
                          int dst_stride_b,
                          int width) {
   const uint8* src_temp;
-  int64 width64 = (int64)width;  // Work around clang 3.4 warning.
+  int64 width64 = (int64)width;  /* Work around clang 3.4 warning.*/
   asm volatile (
-    // loops are on blocks of 8. loop will stop when
-    // counter gets to or below 0. starting the counter
-    // at w-8 allow for this
+    /* loops are on blocks of 8. loop will stop when*/
+    /* counter gets to or below 0. starting the counter*/
+    /* at w-8 allow for this*/
     "sub       %4, %4, #8                      \n"
 
-    // handle 8x8 blocks. this should be the majority of the plane
+    /* handle 8x8 blocks. this should be the majority of the plane*/
     "1:                                        \n"
     "mov       %0, %1                          \n"
 
@@ -355,26 +354,26 @@ void TransposeUVWx8_NEON(const uint8* src,
     MEMACCESS(0)
     "st1       {v23.d}[1], [%0]                \n"
 
-    "add       %1, %1, #16                     \n"  // src   += 8*2
-    "add       %2, %2, %6, lsl #3              \n"  // dst_a += 8 * dst_stride_a
-    "add       %3, %3, %7, lsl #3              \n"  // dst_b += 8 * dst_stride_b
-    "subs      %4, %4,  #8                     \n"  // w     -= 8
+    "add       %1, %1, #16                     \n"  /* src   += 8*2*/
+    "add       %2, %2, %6, lsl #3              \n"  /* dst_a += 8 * dst_stride_a*/
+    "add       %3, %3, %7, lsl #3              \n"  /* dst_b += 8 * dst_stride_b*/
+    "subs      %4, %4,  #8                     \n"  /* w     -= 8*/
     "b.ge      1b                              \n"
 
-    // add 8 back to counter. if the result is 0 there are
-    // no residuals.
+    /* add 8 back to counter. if the result is 0 there are*/
+    /* no residuals.*/
     "adds      %4, %4, #8                      \n"
     "b.eq      4f                              \n"
 
-    // some residual, so between 1 and 7 lines left to transpose
+    /* some residual, so between 1 and 7 lines left to transpose*/
     "cmp       %4, #2                          \n"
     "b.lt      3f                              \n"
 
     "cmp       %4, #4                          \n"
     "b.lt      2f                              \n"
 
-    // TODO(frkoenig): Clean this up
-    // 4x8 block
+    /* TODO(frkoenig): Clean this up*/
+    /* 4x8 block*/
     "mov       %0, %1                          \n"
     MEMACCESS(0)
     "ld1       {v0.8b}, [%0], %5               \n"
@@ -444,18 +443,18 @@ void TransposeUVWx8_NEON(const uint8* src,
     MEMACCESS(0)
     "st1       {v19.s}[3],  [%0]               \n"
 
-    "add       %1, %1, #8                      \n"  // src   += 4 * 2
-    "add       %2, %2, %6, lsl #2              \n"  // dst_a += 4 * dst_stride_a
-    "add       %3, %3, %7, lsl #2              \n"  // dst_b += 4 * dst_stride_b
-    "subs      %4,  %4,  #4                    \n"  // w     -= 4
+    "add       %1, %1, #8                      \n"  /* src   += 4 * 2*/
+    "add       %2, %2, %6, lsl #2              \n"  /* dst_a += 4 * dst_stride_a*/
+    "add       %3, %3, %7, lsl #2              \n"  /* dst_b += 4 * dst_stride_b*/
+    "subs      %4,  %4,  #4                    \n"  /* w     -= 4*/
     "b.eq      4f                              \n"
 
-    // some residual, check to see if it includes a 2x8 block,
-    // or less
+    /* some residual, check to see if it includes a 2x8 block,*/
+    /* or less*/
     "cmp       %4, #2                          \n"
     "b.lt      3f                              \n"
 
-    // 2x8 block
+    /* 2x8 block*/
     "2:                                        \n"
     "mov       %0, %1                          \n"
     MEMACCESS(0)
@@ -494,13 +493,13 @@ void TransposeUVWx8_NEON(const uint8* src,
     MEMACCESS(0)
     "st1       {v7.d}[0], [%0]                 \n"
 
-    "add       %1, %1, #4                      \n"  // src   += 2 * 2
-    "add       %2, %2, %6, lsl #1              \n"  // dst_a += 2 * dst_stride_a
-    "add       %3, %3, %7, lsl #1              \n"  // dst_b += 2 * dst_stride_b
-    "subs      %4,  %4,  #2                    \n"  // w     -= 2
+    "add       %1, %1, #4                      \n"  /* src   += 2 * 2*/
+    "add       %2, %2, %6, lsl #1              \n"  /* dst_a += 2 * dst_stride_a*/
+    "add       %3, %3, %7, lsl #1              \n"  /* dst_b += 2 * dst_stride_b*/
+    "subs      %4,  %4,  #2                    \n"  /* w     -= 2*/
     "b.eq      4f                              \n"
 
-    // 1x8 block
+    /* 1x8 block*/
     "3:                                        \n"
     MEMACCESS(1)
     "ld2       {v0.b, v1.b}[0], [%1], %5       \n"
@@ -526,24 +525,23 @@ void TransposeUVWx8_NEON(const uint8* src,
 
     "4:                                        \n"
 
-    : "=&r"(src_temp),                            // %0
-      "+r"(src),                                  // %1
-      "+r"(dst_a),                                // %2
-      "+r"(dst_b),                                // %3
-      "+r"(width64)                               // %4
-    : "r"(static_cast<ptrdiff_t>(src_stride)),    // %5
-      "r"(static_cast<ptrdiff_t>(dst_stride_a)),  // %6
-      "r"(static_cast<ptrdiff_t>(dst_stride_b)),  // %7
-      "r"(&kVTbl4x4TransposeDi)                   // %8
+    : "=&r"(src_temp),                            /* %0*/
+      "+r"(src),                                  /* %1*/
+      "+r"(dst_a),                                /* %2*/
+      "+r"(dst_b),                                /* %3*/
+      "+r"(width64)                               /* %4*/
+    : "r"(static_cast<ptrdiff_t>(src_stride)),    /* %5*/
+      "r"(static_cast<ptrdiff_t>(dst_stride_a)),  /* %6*/
+      "r"(static_cast<ptrdiff_t>(dst_stride_b)),  /* %7*/
+      "r"(&kVTbl4x4TransposeDi)                   /* %8*/
     : "memory", "cc",
       "v0", "v1", "v2", "v3", "v4", "v5", "v6", "v7",
       "v16", "v17", "v18", "v19", "v20", "v21", "v22", "v23",
       "v30", "v31"
   );
 }
-#endif  // !defined(LIBYUV_DISABLE_NEON) && defined(__aarch64__)
+#endif  /* !defined(LIBYUV_DISABLE_NEON) && defined(__aarch64__)*/
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

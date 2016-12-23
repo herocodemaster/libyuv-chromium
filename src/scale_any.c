@@ -14,11 +14,10 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Definition for ScaleFilterCols, ScaleARGBCols and ScaleARGBFilterCols
+/* Definition for ScaleFilterCols, ScaleARGBCols and ScaleARGBFilterCols*/
 #define CANY(NAMEANY, TERP_SIMD, TERP_C, BPP, MASK)                        \
   void NAMEANY(uint8* dst_ptr, const uint8* src_ptr, int dst_width, int x, \
                int dx) {                                                   \
@@ -44,7 +43,7 @@ CANY(ScaleARGBFilterCols_Any_NEON,
 #endif
 #undef CANY
 
-// Fixed scale down.
+/* Fixed scale down.*/
 #define SDANY(NAMEANY, SCALEROWDOWN_SIMD, SCALEROWDOWN_C, FACTOR, BPP, MASK) \
   void NAMEANY(const uint8* src_ptr, ptrdiff_t src_stride, uint8* dst_ptr,   \
                int dst_width) {                                              \
@@ -57,9 +56,9 @@ CANY(ScaleARGBFilterCols_Any_NEON,
                    dst_ptr + n * BPP, r);                                    \
   }
 
-// Fixed scale down for odd source width.  Used by I420Blend subsampling.
-// Since dst_width is (width + 1) / 2, this function scales one less pixel
-// and copies the last pixel.
+/* Fixed scale down for odd source width.  Used by I420Blend subsampling.*/
+/* Since dst_width is (width + 1) / 2, this function scales one less pixel*/
+/* and copies the last pixel.*/
 #define SDODD(NAMEANY, SCALEROWDOWN_SIMD, SCALEROWDOWN_C, FACTOR, BPP, MASK) \
   void NAMEANY(const uint8* src_ptr, ptrdiff_t src_stride, uint8* dst_ptr,   \
                int dst_width) {                                              \
@@ -285,7 +284,7 @@ SDANY(ScaleARGBRowDown2Box_Any_NEON,
 #endif
 #undef SDANY
 
-// Scale down by even scale factor.
+/* Scale down by even scale factor.*/
 #define SDAANY(NAMEANY, SCALEROWDOWN_SIMD, SCALEROWDOWN_C, BPP, MASK)      \
   void NAMEANY(const uint8* src_ptr, ptrdiff_t src_stride, int src_stepx,  \
                uint8* dst_ptr, int dst_width) {                            \
@@ -323,7 +322,7 @@ SDAANY(ScaleARGBRowDownEvenBox_Any_NEON,
        3)
 #endif
 
-// Add rows box filter scale down.
+/* Add rows box filter scale down.*/
 #define SAANY(NAMEANY, SCALEADDROW_SIMD, SCALEADDROW_C, MASK)          \
   void NAMEANY(const uint8* src_ptr, uint16* dst_ptr, int src_width) { \
     int n = src_width & ~MASK;                                         \
@@ -345,6 +344,5 @@ SAANY(ScaleAddRow_Any_NEON, ScaleAddRow_NEON, ScaleAddRow_C, 15)
 #undef SAANY
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

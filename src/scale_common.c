@@ -14,12 +14,11 @@
 #include <string.h>
 
 #include "libyuv/cpu_id.h"
-#include "libyuv/planar_functions.h"  // For CopyARGB
+#include "libyuv/planar_functions.h"  /* For CopyARGB*/
 #include "libyuv/row.h"
 #include "libyuv/scale_row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -27,7 +26,7 @@ static __inline int Abs(int v) {
   return v >= 0 ? v : -v;
 }
 
-// CPU agnostic row functions
+/* CPU agnostic row functions*/
 void ScaleRowDown2_C(const uint8* src_ptr,
                      ptrdiff_t src_stride,
                      uint8* dst,
@@ -294,7 +293,7 @@ void ScaleRowDown34_16_C(const uint16* src_ptr,
   }
 }
 
-// Filter rows 0 and 1 together, 3 : 1
+/* Filter rows 0 and 1 together, 3 : 1*/
 void ScaleRowDown34_0_Box_C(const uint8* src_ptr,
                             ptrdiff_t src_stride,
                             uint8* d,
@@ -343,7 +342,7 @@ void ScaleRowDown34_0_Box_16_C(const uint16* src_ptr,
   }
 }
 
-// Filter rows 1 and 2 together, 1 : 1
+/* Filter rows 1 and 2 together, 1 : 1*/
 void ScaleRowDown34_1_Box_C(const uint8* src_ptr,
                             ptrdiff_t src_stride,
                             uint8* d,
@@ -392,7 +391,7 @@ void ScaleRowDown34_1_Box_16_C(const uint16* src_ptr,
   }
 }
 
-// Scales a single row of pixels using point sampling.
+/* Scales a single row of pixels using point sampling.*/
 void ScaleCols_C(uint8* dst_ptr,
                  const uint8* src_ptr,
                  int dst_width,
@@ -429,7 +428,7 @@ void ScaleCols_16_C(uint16* dst_ptr,
   }
 }
 
-// Scales a single row of pixels up by 2x using point sampling.
+/* Scales a single row of pixels up by 2x using point sampling.*/
 void ScaleColsUp2_C(uint8* dst_ptr,
                     const uint8* src_ptr,
                     int dst_width,
@@ -462,12 +461,12 @@ void ScaleColsUp2_16_C(uint16* dst_ptr,
   }
 }
 
-// (1-f)a + fb can be replaced with a + f(b-a)
+/* (1-f)a + fb can be replaced with a + f(b-a)*/
 #if defined(__arm__) || defined(__aarch64__)
 #define BLENDER(a, b, f) \
   (uint8)((int)(a) + ((((int)((f)) * ((int)(b) - (int)(a))) + 0x8000) >> 16))
 #else
-// Intel uses 7 bit math with rounding.
+/* Intel uses 7 bit math with rounding.*/
 #define BLENDER(a, b, f) \
   (uint8)((int)(a) + (((int)((f) >> 9) * ((int)(b) - (int)(a)) + 0x40) >> 7))
 #endif
@@ -528,7 +527,7 @@ void ScaleFilterCols64_C(uint8* dst_ptr,
 }
 #undef BLENDER
 
-// Same as 8 bit arm blender but return is cast to uint16
+/* Same as 8 bit arm blender but return is cast to uint16*/
 #define BLENDER(a, b, f) \
   (uint16)((int)(a) + ((((int)((f)) * ((int)(b) - (int)(a))) + 0x8000) >> 16))
 
@@ -618,7 +617,7 @@ void ScaleRowDown38_16_C(const uint16* src_ptr,
   }
 }
 
-// 8x3 -> 3x1
+/* 8x3 -> 3x1*/
 void ScaleRowDown38_3_Box_C(const uint8* src_ptr,
                             ptrdiff_t src_stride,
                             uint8* dst_ptr,
@@ -679,7 +678,7 @@ void ScaleRowDown38_3_Box_16_C(const uint16* src_ptr,
   }
 }
 
-// 8x2 -> 3x1
+/* 8x2 -> 3x1*/
 void ScaleRowDown38_2_Box_C(const uint8* src_ptr,
                             ptrdiff_t src_stride,
                             uint8* dst_ptr,
@@ -859,7 +858,7 @@ void ScaleARGBRowDownEvenBox_C(const uint8* src_argb,
   }
 }
 
-// Scales a single row of pixels using point sampling.
+/* Scales a single row of pixels using point sampling.*/
 void ScaleARGBCols_C(uint8* dst_argb,
                      const uint8* src_argb,
                      int dst_width,
@@ -901,7 +900,7 @@ void ScaleARGBCols64_C(uint8* dst_argb,
   }
 }
 
-// Scales a single row of pixels up by 2x using point sampling.
+/* Scales a single row of pixels up by 2x using point sampling.*/
 void ScaleARGBColsUp2_C(uint8* dst_argb,
                         const uint8* src_argb,
                         int dst_width,
@@ -920,8 +919,8 @@ void ScaleARGBColsUp2_C(uint8* dst_argb,
   }
 }
 
-// TODO(fbarchard): Replace 0x7f ^ f with 128-f.  bug=607.
-// Mimics SSSE3 blender
+/* TODO(fbarchard): Replace 0x7f ^ f with 128-f.  bug=607.*/
+/* Mimics SSSE3 blender*/
 #define BLENDER1(a, b, f) ((a) * (0x7f ^ f) + (b)*f) >> 7
 #define BLENDERC(a, b, f, s) \
   (uint32)(BLENDER1(((a) >> s) & 255, ((b) >> s) & 255, f) << s)
@@ -997,7 +996,7 @@ void ScaleARGBFilterCols64_C(uint8* dst_argb,
 #undef BLENDERC
 #undef BLENDER
 
-// Scale plane vertically with bilinear interpolation.
+/* Scale plane vertically with bilinear interpolation.*/
 void ScalePlaneVertical(int src_height,
                         int dst_width,
                         int dst_height,
@@ -1010,7 +1009,7 @@ void ScalePlaneVertical(int src_height,
                         int dy,
                         int bpp,
                         enum FilterMode filtering) {
-  // TODO(fbarchard): Allow higher bpp.
+  /* TODO(fbarchard): Allow higher bpp.*/
   int dst_width_bytes = dst_width * bpp;
   void (*InterpolateRow)(uint8 * dst_argb, const uint8* src_argb,
                          ptrdiff_t src_stride, int dst_width,
@@ -1082,7 +1081,7 @@ void ScalePlaneVertical_16(int src_height,
                            int dy,
                            int wpp,
                            enum FilterMode filtering) {
-  // TODO(fbarchard): Allow higher wpp.
+  /* TODO(fbarchard): Allow higher wpp.*/
   int dst_width_words = dst_width * wpp;
   void (*InterpolateRow)(uint16 * dst_argb, const uint16* src_argb,
                          ptrdiff_t src_stride, int dst_width,
@@ -1151,7 +1150,7 @@ void ScalePlaneVertical_16(int src_height,
   }
 }
 
-// Simplify the filtering based on scale factors.
+/* Simplify the filtering based on scale factors.*/
 enum FilterMode ScaleFilterReduce(int src_width,
                                   int src_height,
                                   int dst_width,
@@ -1164,7 +1163,7 @@ enum FilterMode ScaleFilterReduce(int src_width,
     src_height = -src_height;
   }
   if (filtering == kFilterBox) {
-    // If scaling both axis to 0.5 or larger, switch from Box to Bilinear.
+    /* If scaling both axis to 0.5 or larger, switch from Box to Bilinear.*/
     if (dst_width * 2 >= src_width && dst_height * 2 >= src_height) {
       filtering = kFilterBilinear;
     }
@@ -1173,12 +1172,12 @@ enum FilterMode ScaleFilterReduce(int src_width,
     if (src_height == 1) {
       filtering = kFilterLinear;
     }
-    // TODO(fbarchard): Detect any odd scale factor and reduce to Linear.
+    /* TODO(fbarchard): Detect any odd scale factor and reduce to Linear.*/
     if (dst_height == src_height || dst_height * 3 == src_height) {
       filtering = kFilterLinear;
     }
-    // TODO(fbarchard): Remove 1 pixel wide filter restriction, which is to
-    // avoid reading 2 pixels horizontally that causes memory exception.
+    /* TODO(fbarchard): Remove 1 pixel wide filter restriction, which is to*/
+    /* avoid reading 2 pixels horizontally that causes memory exception.*/
     if (src_width == 1) {
       filtering = kFilterNone;
     }
@@ -1187,7 +1186,7 @@ enum FilterMode ScaleFilterReduce(int src_width,
     if (src_width == 1) {
       filtering = kFilterNone;
     }
-    // TODO(fbarchard): Detect any odd scale factor and reduce to None.
+    /* TODO(fbarchard): Detect any odd scale factor and reduce to None.*/
     if (dst_width == src_width || dst_width * 3 == src_width) {
       filtering = kFilterNone;
     }
@@ -1195,19 +1194,19 @@ enum FilterMode ScaleFilterReduce(int src_width,
   return filtering;
 }
 
-// Divide num by div and return as 16.16 fixed point result.
+/* Divide num by div and return as 16.16 fixed point result.*/
 int FixedDiv_C(int num, int div) {
   return (int)(((int64)(num) << 16) / div);
 }
 
-// Divide num by div and return as 16.16 fixed point result.
+/* Divide num by div and return as 16.16 fixed point result.*/
 int FixedDiv1_C(int num, int div) {
   return (int)((((int64)(num) << 16) - 0x00010001) / (div - 1));
 }
 
 #define CENTERSTART(dx, s) (dx < 0) ? -((-dx >> 1) + s) : ((dx >> 1) + s)
 
-// Compute slope values for stepping.
+/* Compute slope values for stepping.*/
 void ScaleSlope(int src_width,
                 int src_height,
                 int dst_width,
@@ -1225,7 +1224,7 @@ void ScaleSlope(int src_width,
   assert(src_height != 0);
   assert(dst_width > 0);
   assert(dst_height > 0);
-  // Check for 1 pixel and avoid FixedDiv overflow.
+  /* Check for 1 pixel and avoid FixedDiv overflow.*/
   if (dst_width == 1 && src_width >= 32768) {
     dst_width = src_width;
   }
@@ -1233,32 +1232,32 @@ void ScaleSlope(int src_width,
     dst_height = src_height;
   }
   if (filtering == kFilterBox) {
-    // Scale step for point sampling duplicates all pixels equally.
+    /* Scale step for point sampling duplicates all pixels equally.*/
     *dx = FixedDiv(Abs(src_width), dst_width);
     *dy = FixedDiv(src_height, dst_height);
     *x = 0;
     *y = 0;
   } else if (filtering == kFilterBilinear) {
-    // Scale step for bilinear sampling renders last pixel once for upsample.
+    /* Scale step for bilinear sampling renders last pixel once for upsample.*/
     if (dst_width <= Abs(src_width)) {
       *dx = FixedDiv(Abs(src_width), dst_width);
-      *x = CENTERSTART(*dx, -32768);  // Subtract 0.5 (32768) to center filter.
+      *x = CENTERSTART(*dx, -32768);  /* Subtract 0.5 (32768) to center filter.*/
     } else if (dst_width > 1) {
       *dx = FixedDiv1(Abs(src_width), dst_width);
       *x = 0;
     }
     if (dst_height <= src_height) {
       *dy = FixedDiv(src_height, dst_height);
-      *y = CENTERSTART(*dy, -32768);  // Subtract 0.5 (32768) to center filter.
+      *y = CENTERSTART(*dy, -32768);  /* Subtract 0.5 (32768) to center filter.*/
     } else if (dst_height > 1) {
       *dy = FixedDiv1(src_height, dst_height);
       *y = 0;
     }
   } else if (filtering == kFilterLinear) {
-    // Scale step for bilinear sampling renders last pixel once for upsample.
+    /* Scale step for bilinear sampling renders last pixel once for upsample.*/
     if (dst_width <= Abs(src_width)) {
       *dx = FixedDiv(Abs(src_width), dst_width);
-      *x = CENTERSTART(*dx, -32768);  // Subtract 0.5 (32768) to center filter.
+      *x = CENTERSTART(*dx, -32768);  /* Subtract 0.5 (32768) to center filter.*/
     } else if (dst_width > 1) {
       *dx = FixedDiv1(Abs(src_width), dst_width);
       *x = 0;
@@ -1266,22 +1265,21 @@ void ScaleSlope(int src_width,
     *dy = FixedDiv(src_height, dst_height);
     *y = *dy >> 1;
   } else {
-    // Scale step for point sampling duplicates all pixels equally.
+    /* Scale step for point sampling duplicates all pixels equally.*/
     *dx = FixedDiv(Abs(src_width), dst_width);
     *dy = FixedDiv(src_height, dst_height);
     *x = CENTERSTART(*dx, 0);
     *y = CENTERSTART(*dy, 0);
   }
-  // Negative src_width means horizontally mirror.
+  /* Negative src_width means horizontally mirror.*/
   if (src_width < 0) {
     *x += (dst_width - 1) * *dx;
     *dx = -*dx;
-    // src_width = -src_width;   // Caller must do this.
+    /* src_width = -src_width;   // Caller must do this.*/
   }
 }
 #undef CENTERSTART
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

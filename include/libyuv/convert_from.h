@@ -15,13 +15,12 @@
 #include "libyuv/rotate.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// See Also convert.h for conversions from formats to I420.
+/* See Also convert.h for conversions from formats to I420.*/
 
-// I420Copy in convert to I420ToI420.
+/* I420Copy in convert to I420ToI420.*/
 
 LIBYUV_API
 int I420ToI422(const uint8* src_y,
@@ -55,7 +54,7 @@ int I420ToI444(const uint8* src_y,
                int width,
                int height);
 
-// Copy to I400. Source can be I420, I422, I444, I400, NV12 or NV21.
+/* Copy to I400. Source can be I420, I422, I444, I400, NV12 or NV21.*/
 LIBYUV_API
 int I400Copy(const uint8* src_y,
              int src_stride_y,
@@ -200,9 +199,9 @@ int I420ToRGB565(const uint8* src_y,
                  int width,
                  int height);
 
-// Convert I420 To RGB565 with 4x4 dither matrix (16 bytes).
-// Values in dither matrix from 0 to 7 recommended.
-// The order of the dither matrix is first byte is upper left.
+/* Convert I420 To RGB565 with 4x4 dither matrix (16 bytes).*/
+/* Values in dither matrix from 0 to 7 recommended.*/
+/* The order of the dither matrix is first byte is upper left.*/
 
 LIBYUV_API
 int I420ToRGB565Dither(const uint8* src_y,
@@ -241,9 +240,9 @@ int I420ToARGB4444(const uint8* src_y,
                    int width,
                    int height);
 
-// Convert I420 to specified format.
-// "dst_sample_stride" is bytes in a row for the destination. Pass 0 if the
-//    buffer has contiguous rows. Can be negative. A multiple of 16 is optimal.
+/* Convert I420 to specified format.*/
+/* "dst_sample_stride" is bytes in a row for the destination. Pass 0 if the*/
+/*    buffer has contiguous rows. Can be negative. A multiple of 16 is optimal.*/
 LIBYUV_API
 int ConvertFromI420(const uint8* y,
                     int y_stride,
@@ -258,8 +257,7 @@ int ConvertFromI420(const uint8* y,
                     uint32 format);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_CONVERT_FROM_H_
+#endif  /* INCLUDE_LIBYUV_CONVERT_FROM_H_*/

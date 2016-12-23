@@ -23,14 +23,13 @@
 #include "libyuv/video_common.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// hash seed of 5381 recommended.
+/* hash seed of 5381 recommended.*/
 LIBYUV_API
 uint32 HashDjb2(const uint8* src, uint64 count, uint32 seed) {
-  const int kBlockSize = 1 << 15;  // 32768;
+  const int kBlockSize = 1 << 15;  /* 32768;*/
   int remainder;
   uint32 (*HashDjb2_SSE)(const uint8* src, int count, uint32 seed) = HashDjb2_C;
 #if defined(HAS_HASHDJB2_SSE41)
@@ -65,39 +64,39 @@ uint32 HashDjb2(const uint8* src, uint64 count, uint32 seed) {
 static uint32 ARGBDetectRow_C(const uint8* argb, int width) {
   int x;
   for (x = 0; x < width - 1; x += 2) {
-    if (argb[0] != 255) {  // First byte is not Alpha of 255, so not ARGB.
+    if (argb[0] != 255) {  /* First byte is not Alpha of 255, so not ARGB.*/
       return FOURCC_BGRA;
     }
-    if (argb[3] != 255) {  // 4th byte is not Alpha of 255, so not BGRA.
+    if (argb[3] != 255) {  /* 4th byte is not Alpha of 255, so not BGRA.*/
       return FOURCC_ARGB;
     }
-    if (argb[4] != 255) {  // Second pixel first byte is not Alpha of 255.
+    if (argb[4] != 255) {  /* Second pixel first byte is not Alpha of 255.*/
       return FOURCC_BGRA;
     }
-    if (argb[7] != 255) {  // Second pixel 4th byte is not Alpha of 255.
+    if (argb[7] != 255) {  /* Second pixel 4th byte is not Alpha of 255.*/
       return FOURCC_ARGB;
     }
     argb += 8;
   }
   if (width & 1) {
-    if (argb[0] != 255) {  // First byte is not Alpha of 255, so not ARGB.
+    if (argb[0] != 255) {  /* First byte is not Alpha of 255, so not ARGB.*/
       return FOURCC_BGRA;
     }
-    if (argb[3] != 255) {  // 4th byte is not Alpha of 255, so not BGRA.
+    if (argb[3] != 255) {  /* 4th byte is not Alpha of 255, so not BGRA.*/
       return FOURCC_ARGB;
     }
   }
   return 0;
 }
 
-// Scan an opaque argb image and return fourcc based on alpha offset.
-// Returns FOURCC_ARGB, FOURCC_BGRA, or 0 if unknown.
+/* Scan an opaque argb image and return fourcc based on alpha offset.*/
+/* Returns FOURCC_ARGB, FOURCC_BGRA, or 0 if unknown.*/
 LIBYUV_API
 uint32 ARGBDetect(const uint8* argb, int stride_argb, int width, int height) {
   uint32 fourcc = 0;
   int h;
 
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (stride_argb == width * 4) {
     width *= height;
     height = 1;
@@ -110,14 +109,14 @@ uint32 ARGBDetect(const uint8* argb, int stride_argb, int width, int height) {
   return fourcc;
 }
 
-// TODO(fbarchard): Refactor into row function.
+/* TODO(fbarchard): Refactor into row function.*/
 LIBYUV_API
 uint64 ComputeSumSquareError(const uint8* src_a,
                              const uint8* src_b,
                              int count) {
-  // SumSquareError returns values 0 to 65535 for each squared difference.
-  // Up to 65536 of those can be summed and remain within a uint32.
-  // After each block of 65536 pixels, accumulate into a uint64.
+  /* SumSquareError returns values 0 to 65535 for each squared difference.*/
+  /* Up to 65536 of those can be summed and remain within a uint32.*/
+  /* After each block of 65536 pixels, accumulate into a uint64.*/
   const int kBlockSize = 65536;
   int remainder = count & (kBlockSize - 1) & ~31;
   uint64 sse = 0;
@@ -131,13 +130,13 @@ uint64 ComputeSumSquareError(const uint8* src_a,
 #endif
 #if defined(HAS_SUMSQUAREERROR_SSE2)
   if (TestCpuFlag(kCpuHasSSE2)) {
-    // Note only used for multiples of 16 so count is not checked.
+    /* Note only used for multiples of 16 so count is not checked.*/
     SumSquareError = SumSquareError_SSE2;
   }
 #endif
 #if defined(HAS_SUMSQUAREERROR_AVX2)
   if (TestCpuFlag(kCpuHasAVX2)) {
-    // Note only used for multiples of 32 so count is not checked.
+    /* Note only used for multiples of 32 so count is not checked.*/
     SumSquareError = SumSquareError_AVX2;
   }
 #endif
@@ -170,7 +169,7 @@ uint64 ComputeSumSquareErrorPlane(const uint8* src_a,
                                   int height) {
   uint64 sse = 0;
   int h;
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (stride_a == width && stride_b == width) {
     width *= height;
     height = 1;
@@ -191,7 +190,7 @@ double SumSquareErrorToPsnr(uint64 sse, uint64 count) {
     double mse = (double)count / (double)sse;
     psnr = 10.0 * log10(255.0 * 255.0 * mse);
   } else {
-    psnr = kMaxPsnr;  // Limit to prevent divide by 0
+    psnr = kMaxPsnr;  /* Limit to prevent divide by 0*/
   }
 
   if (psnr > kMaxPsnr)
@@ -241,8 +240,8 @@ double I420Psnr(const uint8* src_y_a,
   return SumSquareErrorToPsnr(sse, samples);
 }
 
-static const int64 cc1 = 26634;   // (64^2*(.01*255)^2
-static const int64 cc2 = 239708;  // (64^2*(.03*255)^2
+static const int64 cc1 = 26634;   /* (64^2*(.01*255)^2*/
+static const int64 cc2 = 239708;  /* (64^2*(.03*255)^2*/
 
 static double Ssim8x8_C(const uint8* src_a,
                         int stride_a,
@@ -271,7 +270,7 @@ static double Ssim8x8_C(const uint8* src_a,
 
   {
     const int64 count = 64;
-    // scale the constants by number of pixels
+    /* scale the constants by number of pixels*/
     const int64 c1 = (cc1 * count * count) >> 12;
     const int64 c2 = (cc2 * count * count) >> 12;
 
@@ -294,9 +293,9 @@ static double Ssim8x8_C(const uint8* src_a,
   }
 }
 
-// We are using a 8x8 moving window with starting location of each 8x8 window
-// on the 4x4 pixel grid. Such arrangement allows the windows to overlap
-// block boundaries to penalize blocking artifacts.
+/* We are using a 8x8 moving window with starting location of each 8x8 window*/
+/* on the 4x4 pixel grid. Such arrangement allows the windows to overlap*/
+/* block boundaries to penalize blocking artifacts.*/
 LIBYUV_API
 double CalcFrameSsim(const uint8* src_a,
                      int stride_a,
@@ -309,7 +308,7 @@ double CalcFrameSsim(const uint8* src_a,
   double (*Ssim8x8)(const uint8* src_a, int stride_a, const uint8* src_b,
                     int stride_b) = Ssim8x8_C;
 
-  // sample point start with each 4x4 location
+  /* sample point start with each 4x4 location*/
   int i;
   for (i = 0; i < height - 8; i += 4) {
     int j;
@@ -353,6 +352,5 @@ double I420Ssim(const uint8* src_y_a,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

@@ -14,24 +14,23 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Supported rotation.
+/* Supported rotation.*/
 typedef enum RotationMode {
-  kRotate0 = 0,      // No rotation.
-  kRotate90 = 90,    // Rotate 90 degrees clockwise.
-  kRotate180 = 180,  // Rotate 180 degrees.
-  kRotate270 = 270,  // Rotate 270 degrees clockwise.
+  kRotate0 = 0,      /* No rotation.*/
+  kRotate90 = 90,    /* Rotate 90 degrees clockwise.*/
+  kRotate180 = 180,  /* Rotate 180 degrees.*/
+  kRotate270 = 270,  /* Rotate 270 degrees clockwise.*/
 
-  // Deprecated.
+  /* Deprecated.*/
   kRotateNone = 0,
   kRotateClockwise = 90,
   kRotateCounterClockwise = 270,
 } RotationModeEnum;
 
-// Rotate I420 frame.
+/* Rotate I420 frame.*/
 LIBYUV_API
 int I420Rotate(const uint8* src_y,
                int src_stride_y,
@@ -49,7 +48,7 @@ int I420Rotate(const uint8* src_y,
                int src_height,
                enum RotationMode mode);
 
-// Rotate NV12 input and store in I420.
+/* Rotate NV12 input and store in I420.*/
 LIBYUV_API
 int NV12ToI420Rotate(const uint8* src_y,
                      int src_stride_y,
@@ -65,7 +64,7 @@ int NV12ToI420Rotate(const uint8* src_y,
                      int src_height,
                      enum RotationMode mode);
 
-// Rotate a plane by 0, 90, 180, or 270.
+/* Rotate a plane by 0, 90, 180, or 270.*/
 LIBYUV_API
 int RotatePlane(const uint8* src,
                 int src_stride,
@@ -75,7 +74,7 @@ int RotatePlane(const uint8* src,
                 int src_height,
                 enum RotationMode mode);
 
-// Rotate planes by 90, 180, 270. Deprecated.
+/* Rotate planes by 90, 180, 270. Deprecated.*/
 LIBYUV_API
 void RotatePlane90(const uint8* src,
                    int src_stride,
@@ -110,10 +109,10 @@ void RotateUV90(const uint8* src,
                 int width,
                 int height);
 
-// Rotations for when U and V are interleaved.
-// These functions take one input pointer and
-// split the data into two buffers while
-// rotating them. Deprecated.
+/* Rotations for when U and V are interleaved.*/
+/* These functions take one input pointer and*/
+/* split the data into two buffers while*/
+/* rotating them. Deprecated.*/
 LIBYUV_API
 void RotateUV180(const uint8* src,
                  int src_stride,
@@ -134,10 +133,10 @@ void RotateUV270(const uint8* src,
                  int width,
                  int height);
 
-// The 90 and 270 functions are based on transposes.
-// Doing a transpose with reversing the read/write
-// order will result in a rotation by +- 90 degrees.
-// Deprecated.
+/* The 90 and 270 functions are based on transposes.*/
+/* Doing a transpose with reversing the read/write*/
+/* order will result in a rotation by +- 90 degrees.*/
+/* Deprecated.*/
 LIBYUV_API
 void TransposePlane(const uint8* src,
                     int src_stride,
@@ -157,8 +156,7 @@ void TransposeUV(const uint8* src,
                  int height);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_ROTATE_H_
+#endif  /* INCLUDE_LIBYUV_ROTATE_H_*/

@@ -12,15 +12,14 @@
 #include "libyuv/rotate_row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// This module is for GCC x86 and x64.
+/* This module is for GCC x86 and x64.*/
 #if !defined(LIBYUV_DISABLE_X86) && \
     (defined(__x86_64__) || (defined(__i386__) && !defined(_MSC_VER)))
 
-// Transpose 8x8. 32 or 64 bit, but not NaCL for 64 bit.
+/* Transpose 8x8. 32 or 64 bit, but not NaCL for 64 bit.*/
 #if defined(HAS_TRANSPOSEWX8_SSSE3)
 void TransposeWx8_SSSE3(const uint8* src,
                         int src_stride,
@@ -28,8 +27,8 @@ void TransposeWx8_SSSE3(const uint8* src,
                         int dst_stride,
                         int width) {
   asm volatile(
-      // Read in the data from the source pointer.
-      // First round of bit swap.
+      /* Read in the data from the source pointer.*/
+      /* First round of bit swap.*/
       LABELALIGN
       "1:                                          \n"
       "movq       (%0),%%xmm0                      \n"
@@ -59,7 +58,7 @@ void TransposeWx8_SSSE3(const uint8* src,
       "lea        0x8(%0,%3,8),%0                  \n"
       "palignr    $0x8,%%xmm7,%%xmm7               \n"
       "neg        %3                               \n"
-      // Second round of bit swap.
+      /* Second round of bit swap.*/
       "punpcklwd  %%xmm2,%%xmm0                    \n"
       "punpcklwd  %%xmm3,%%xmm1                    \n"
       "movdqa     %%xmm0,%%xmm2                    \n"
@@ -72,8 +71,8 @@ void TransposeWx8_SSSE3(const uint8* src,
       "movdqa     %%xmm5,%%xmm7                    \n"
       "palignr    $0x8,%%xmm6,%%xmm6               \n"
       "palignr    $0x8,%%xmm7,%%xmm7               \n"
-      // Third round of bit swap.
-      // Write to the destination pointer.
+      /* Third round of bit swap.*/
+      /* Write to the destination pointer.*/
       "punpckldq  %%xmm4,%%xmm0                    \n"
       "movq       %%xmm0,(%1)                      \n"
       "movdqa     %%xmm0,%%xmm4                    \n"
@@ -100,17 +99,17 @@ void TransposeWx8_SSSE3(const uint8* src,
       "movq       %%xmm7,(%1,%4)                   \n"
       "lea        (%1,%4,2),%1                     \n"
       "jg         1b                               \n"
-      : "+r"(src),                    // %0
-        "+r"(dst),                    // %1
-        "+r"(width)                   // %2
-      : "r"((intptr_t)(src_stride)),  // %3
-        "r"((intptr_t)(dst_stride))   // %4
+      : "+r"(src),                    /* %0*/
+        "+r"(dst),                    /* %1*/
+        "+r"(width)                   /* %2*/
+      : "r"((intptr_t)(src_stride)),  /* %3*/
+        "r"((intptr_t)(dst_stride))   /* %4*/
       : "memory", "cc", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6",
         "xmm7");
 }
-#endif  // defined(HAS_TRANSPOSEWX8_SSSE3)
+#endif  /* defined(HAS_TRANSPOSEWX8_SSSE3)*/
 
-// Transpose 16x8. 64 bit
+/* Transpose 16x8. 64 bit*/
 #if defined(HAS_TRANSPOSEWX8_FAST_SSSE3)
 void TransposeWx8_Fast_SSSE3(const uint8* src,
                              int src_stride,
@@ -118,8 +117,8 @@ void TransposeWx8_Fast_SSSE3(const uint8* src,
                              int dst_stride,
                              int width) {
   asm volatile(
-      // Read in the data from the source pointer.
-      // First round of bit swap.
+      /* Read in the data from the source pointer.*/
+      /* First round of bit swap.*/
       LABELALIGN
       "1:                                          \n"
       "movdqu     (%0),%%xmm0                      \n"
@@ -165,7 +164,7 @@ void TransposeWx8_Fast_SSSE3(const uint8* src,
       "palignr    $0x8,%%xmm7,%%xmm7               \n"
       "palignr    $0x8,%%xmm15,%%xmm15             \n"
       "neg        %3                               \n"
-      // Second round of bit swap.
+      /* Second round of bit swap.*/
       "punpcklwd  %%xmm2,%%xmm0                    \n"
       "punpcklwd  %%xmm3,%%xmm1                    \n"
       "movdqa     %%xmm0,%%xmm2                    \n"
@@ -190,8 +189,8 @@ void TransposeWx8_Fast_SSSE3(const uint8* src,
       "movdqa     %%xmm13,%%xmm15                  \n"
       "palignr    $0x8,%%xmm14,%%xmm14             \n"
       "palignr    $0x8,%%xmm15,%%xmm15             \n"
-      // Third round of bit swap.
-      // Write to the destination pointer.
+      /* Third round of bit swap.*/
+      /* Write to the destination pointer.*/
       "punpckldq  %%xmm4,%%xmm0                    \n"
       "movq       %%xmm0,(%1)                      \n"
       "movdqa     %%xmm0,%%xmm4                    \n"
@@ -242,18 +241,18 @@ void TransposeWx8_Fast_SSSE3(const uint8* src,
       "movq       %%xmm15,(%1,%4)                  \n"
       "lea        (%1,%4,2),%1                     \n"
       "jg         1b                               \n"
-      : "+r"(src),                    // %0
-        "+r"(dst),                    // %1
-        "+r"(width)                   // %2
-      : "r"((intptr_t)(src_stride)),  // %3
-        "r"((intptr_t)(dst_stride))   // %4
+      : "+r"(src),                    /* %0*/
+        "+r"(dst),                    /* %1*/
+        "+r"(width)                   /* %2*/
+      : "r"((intptr_t)(src_stride)),  /* %3*/
+        "r"((intptr_t)(dst_stride))   /* %4*/
       : "memory", "cc", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6",
         "xmm7", "xmm8", "xmm9", "xmm10", "xmm11", "xmm12", "xmm13", "xmm14",
         "xmm15");
 }
-#endif  // defined(HAS_TRANSPOSEWX8_FAST_SSSE3)
+#endif  /* defined(HAS_TRANSPOSEWX8_FAST_SSSE3)*/
 
-// Transpose UV 8x8.  64 bit.
+/* Transpose UV 8x8.  64 bit.*/
 #if defined(HAS_TRANSPOSEUVWX8_SSE2)
 void TransposeUVWx8_SSE2(const uint8* src,
                          int src_stride,
@@ -263,8 +262,8 @@ void TransposeUVWx8_SSE2(const uint8* src,
                          int dst_stride_b,
                          int width) {
   asm volatile(
-      // Read in the data from the source pointer.
-      // First round of bit swap.
+      /* Read in the data from the source pointer.*/
+      /* First round of bit swap.*/
       LABELALIGN
       "1:                                          \n"
       "movdqu     (%0),%%xmm0                      \n"
@@ -298,7 +297,7 @@ void TransposeUVWx8_SSE2(const uint8* src,
       "punpckhbw  %%xmm7,%%xmm8                    \n"
       "movdqa     %%xmm8,%%xmm7                    \n"
       "neg        %4                               \n"
-      // Second round of bit swap.
+      /* Second round of bit swap.*/
       "movdqa     %%xmm0,%%xmm8                    \n"
       "movdqa     %%xmm1,%%xmm9                    \n"
       "punpckhwd  %%xmm2,%%xmm8                    \n"
@@ -315,12 +314,12 @@ void TransposeUVWx8_SSE2(const uint8* src,
       "punpcklwd  %%xmm7,%%xmm5                    \n"
       "movdqa     %%xmm8,%%xmm6                    \n"
       "movdqa     %%xmm9,%%xmm7                    \n"
-      // Third round of bit swap.
-      // Write to the destination pointer.
+      /* Third round of bit swap.*/
+      /* Write to the destination pointer.*/
       "movdqa     %%xmm0,%%xmm8                    \n"
       "punpckldq  %%xmm4,%%xmm0                    \n"
-      "movlpd     %%xmm0,(%1)                      \n"  // Write back U channel
-      "movhpd     %%xmm0,(%2)                      \n"  // Write back V channel
+      "movlpd     %%xmm0,(%1)                      \n"  /* Write back U channel*/
+      "movhpd     %%xmm0,(%2)                      \n"  /* Write back V channel*/
       "punpckhdq  %%xmm4,%%xmm8                    \n"
       "movlpd     %%xmm8,(%1,%5)                   \n"
       "lea        (%1,%5,2),%1                     \n"
@@ -355,20 +354,19 @@ void TransposeUVWx8_SSE2(const uint8* src,
       "movhpd     %%xmm8,(%2,%6)                   \n"
       "lea        (%2,%6,2),%2                     \n"
       "jg         1b                               \n"
-      : "+r"(src),                      // %0
-        "+r"(dst_a),                    // %1
-        "+r"(dst_b),                    // %2
-        "+r"(width)                     // %3
-      : "r"((intptr_t)(src_stride)),    // %4
-        "r"((intptr_t)(dst_stride_a)),  // %5
-        "r"((intptr_t)(dst_stride_b))   // %6
+      : "+r"(src),                      /* %0*/
+        "+r"(dst_a),                    /* %1*/
+        "+r"(dst_b),                    /* %2*/
+        "+r"(width)                     /* %3*/
+      : "r"((intptr_t)(src_stride)),    /* %4*/
+        "r"((intptr_t)(dst_stride_a)),  /* %5*/
+        "r"((intptr_t)(dst_stride_b))   /* %6*/
       : "memory", "cc", "xmm0", "xmm1", "xmm2", "xmm3", "xmm4", "xmm5", "xmm6",
         "xmm7", "xmm8", "xmm9");
 }
-#endif  // defined(HAS_TRANSPOSEUVWX8_SSE2)
-#endif  // defined(__x86_64__) || defined(__i386__)
+#endif  /* defined(HAS_TRANSPOSEUVWX8_SSE2)*/
+#endif  /* defined(__x86_64__) || defined(__i386__)*/
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

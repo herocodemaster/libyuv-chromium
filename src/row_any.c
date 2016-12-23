@@ -10,19 +10,18 @@
 
 #include "libyuv/row.h"
 
-#include <string.h>  // For memset.
+#include <string.h>  /* For memset.*/
 
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Subsampled source needs to be increase by 1 of not even.
+/* Subsampled source needs to be increase by 1 of not even.*/
 #define SS(width, shift) (((width) + (1 << (shift)) - 1) >> (shift))
 
-// Any 4 planes to 1 with yuvconstants
+/* Any 4 planes to 1 with yuvconstants*/
 #define ANY41C(NAMEANY, ANY_SIMD, UVSHIFT, DUVSHIFT, BPP, MASK)            \
   void NAMEANY(const uint8* y_buf, const uint8* u_buf, const uint8* v_buf, \
                const uint8* a_buf, uint8* dst_ptr,                         \
@@ -59,7 +58,7 @@ ANY41C(I422AlphaToARGBRow_Any_MSA, I422AlphaToARGBRow_MSA, 1, 0, 4, 7)
 #endif
 #undef ANY41C
 
-// Any 3 planes to 1.
+/* Any 3 planes to 1.*/
 #define ANY31(NAMEANY, ANY_SIMD, UVSHIFT, DUVSHIFT, BPP, MASK)             \
   void NAMEANY(const uint8* y_buf, const uint8* u_buf, const uint8* v_buf, \
                uint8* dst_ptr, int width) {                                \
@@ -102,9 +101,9 @@ ANY31(BlendPlaneRow_Any_SSSE3, BlendPlaneRow_SSSE3, 0, 0, 1, 7)
 #endif
 #undef ANY31
 
-// Note that odd width replication includes 444 due to implementation
-// on arm that subsamples 444 to 422 internally.
-// Any 3 planes to 1 with yuvconstants
+/* Note that odd width replication includes 444 due to implementation*/
+/* on arm that subsamples 444 to 422 internally.*/
+/* Any 3 planes to 1 with yuvconstants*/
 #define ANY31C(NAMEANY, ANY_SIMD, UVSHIFT, DUVSHIFT, BPP, MASK)                \
   void NAMEANY(const uint8* y_buf, const uint8* u_buf, const uint8* v_buf,     \
                uint8* dst_ptr, const struct YuvConstants* yuvconstants,        \
@@ -139,7 +138,7 @@ ANY31C(I422ToARGB4444Row_Any_SSSE3, I422ToARGB4444Row_SSSE3, 1, 0, 2, 7)
 ANY31C(I422ToARGB1555Row_Any_SSSE3, I422ToARGB1555Row_SSSE3, 1, 0, 2, 7)
 ANY31C(I422ToRGB565Row_Any_SSSE3, I422ToRGB565Row_SSSE3, 1, 0, 2, 7)
 ANY31C(I422ToRGB24Row_Any_SSSE3, I422ToRGB24Row_SSSE3, 1, 0, 3, 7)
-#endif  // HAS_I444TOARGBROW_SSSE3
+#endif  /* HAS_I444TOARGBROW_SSSE3*/
 #ifdef HAS_I422TORGB24ROW_AVX2
 ANY31C(I422ToRGB24Row_Any_AVX2, I422ToRGB24Row_AVX2, 1, 0, 3, 15)
 #endif
@@ -180,7 +179,7 @@ ANY31C(I422ToRGB565Row_Any_MSA, I422ToRGB565Row_MSA, 1, 0, 2, 7)
 #endif
 #undef ANY31C
 
-// Any 2 planes to 1.
+/* Any 2 planes to 1.*/
 #define ANY21(NAMEANY, ANY_SIMD, UVSHIFT, SBPP, SBPP2, BPP, MASK)       \
   void NAMEANY(const uint8* y_buf, const uint8* uv_buf, uint8* dst_ptr, \
                int width) {                                             \
@@ -199,7 +198,7 @@ ANY31C(I422ToRGB565Row_Any_MSA, I422ToRGB565Row_MSA, 1, 0, 2, 7)
     memcpy(dst_ptr + n * BPP, temp + 128, r * BPP);                     \
   }
 
-// Merge functions.
+/* Merge functions.*/
 #ifdef HAS_MERGEUVROW_SSE2
 ANY21(MergeUVRow_Any_SSE2, MergeUVRow_SSE2, 0, 1, 1, 2, 15)
 #endif
@@ -210,7 +209,7 @@ ANY21(MergeUVRow_Any_AVX2, MergeUVRow_AVX2, 0, 1, 1, 2, 31)
 ANY21(MergeUVRow_Any_NEON, MergeUVRow_NEON, 0, 1, 1, 2, 15)
 #endif
 
-// Math functions.
+/* Math functions.*/
 #ifdef HAS_ARGBMULTIPLYROW_SSE2
 ANY21(ARGBMultiplyRow_Any_SSE2, ARGBMultiplyRow_SSE2, 0, 4, 4, 4, 3)
 #endif
@@ -267,7 +266,7 @@ ANY21(SobelXYRow_Any_NEON, SobelXYRow_NEON, 0, 1, 1, 4, 7)
 #endif
 #undef ANY21
 
-// Any 2 planes to 1 with yuvconstants
+/* Any 2 planes to 1 with yuvconstants*/
 #define ANY21C(NAMEANY, ANY_SIMD, UVSHIFT, SBPP, SBPP2, BPP, MASK)      \
   void NAMEANY(const uint8* y_buf, const uint8* uv_buf, uint8* dst_ptr, \
                const struct YuvConstants* yuvconstants, int width) {    \
@@ -286,7 +285,7 @@ ANY21(SobelXYRow_Any_NEON, SobelXYRow_NEON, 0, 1, 1, 4, 7)
     memcpy(dst_ptr + n * BPP, temp + 128, r * BPP);                     \
   }
 
-// Biplanar to RGB.
+/* Biplanar to RGB.*/
 #ifdef HAS_NV12TOARGBROW_SSSE3
 ANY21C(NV12ToARGBRow_Any_SSSE3, NV12ToARGBRow_SSSE3, 1, 1, 2, 4, 7)
 #endif
@@ -316,7 +315,7 @@ ANY21C(NV12ToRGB565Row_Any_NEON, NV12ToRGB565Row_NEON, 1, 1, 2, 2, 7)
 #endif
 #undef ANY21C
 
-// Any 1 to 1.
+/* Any 1 to 1.*/
 #define ANY11(NAMEANY, ANY_SIMD, UVSHIFT, SBPP, BPP, MASK)                \
   void NAMEANY(const uint8* src_ptr, uint8* dst_ptr, int width) {         \
     int r, n;                                                             \
@@ -519,7 +518,7 @@ ANY11(ARGBExtractAlphaRow_Any_NEON, ARGBExtractAlphaRow_NEON, 0, 4, 1, 15)
 #endif
 #undef ANY11
 
-// Any 1 to 1 blended.  Destination is read, modify, write.
+/* Any 1 to 1 blended.  Destination is read, modify, write.*/
 #define ANY11B(NAMEANY, ANY_SIMD, UVSHIFT, SBPP, BPP, MASK)               \
   void NAMEANY(const uint8* src_ptr, uint8* dst_ptr, int width) {         \
     int r, n;                                                             \
@@ -550,7 +549,7 @@ ANY11B(ARGBCopyYToAlphaRow_Any_SSE2, ARGBCopyYToAlphaRow_SSE2, 0, 1, 4, 7)
 #endif
 #undef ANY11B
 
-// Any 1 to 1 with parameter.
+/* Any 1 to 1 with parameter.*/
 #define ANY11P(NAMEANY, ANY_SIMD, T, SBPP, BPP, MASK)                         \
   void NAMEANY(const uint8* src_ptr, uint8* dst_ptr, T shuffler, int width) { \
     int r, n;                                                                 \
@@ -604,7 +603,7 @@ ANY11P(ARGBShuffleRow_Any_NEON, ARGBShuffleRow_NEON, const uint8*, 4, 4, 3)
 #endif
 #undef ANY11P
 
-// Any 1 to 1 with parameter and shorts.  BPP measures in shorts.
+/* Any 1 to 1 with parameter and shorts.  BPP measures in shorts.*/
 #define ANY11P16(NAMEANY, ANY_SIMD, T, SBPP, BPP, MASK)            \
   void NAMEANY(const uint16* src_ptr, uint16* dst_ptr, T shuffler, \
                int width) {                                        \
@@ -637,7 +636,7 @@ ANY11P16(HalfFloat1Row_Any_NEON, HalfFloat1Row_NEON, float, 1, 1, 7)
 #endif
 #undef ANY11P16
 
-// Any 1 to 1 with yuvconstants
+/* Any 1 to 1 with yuvconstants*/
 #define ANY11C(NAMEANY, ANY_SIMD, UVSHIFT, SBPP, BPP, MASK)               \
   void NAMEANY(const uint8* src_ptr, uint8* dst_ptr,                      \
                const struct YuvConstants* yuvconstants, int width) {      \
@@ -667,7 +666,7 @@ ANY11C(UYVYToARGBRow_Any_NEON, UYVYToARGBRow_NEON, 1, 4, 4, 7)
 #endif
 #undef ANY11C
 
-// Any 1 to 1 interpolate.  Takes 2 rows of source via stride.
+/* Any 1 to 1 interpolate.  Takes 2 rows of source via stride.*/
 #define ANY11T(NAMEANY, ANY_SIMD, SBPP, BPP, MASK)                             \
   void NAMEANY(uint8* dst_ptr, const uint8* src_ptr, ptrdiff_t src_stride_ptr, \
                int width, int source_y_fraction) {                             \
@@ -699,7 +698,7 @@ ANY11T(InterpolateRow_Any_DSPR2, InterpolateRow_DSPR2, 1, 1, 3)
 #endif
 #undef ANY11T
 
-// Any 1 to 1 mirror.
+/* Any 1 to 1 mirror.*/
 #define ANY11M(NAMEANY, ANY_SIMD, BPP, MASK)                              \
   void NAMEANY(const uint8* src_ptr, uint8* dst_ptr, int width) {         \
     int r, n;                                                             \
@@ -741,7 +740,7 @@ ANY11M(ARGBMirrorRow_Any_MSA, ARGBMirrorRow_MSA, 4, 15)
 #endif
 #undef ANY11M
 
-// Any 1 plane. (memset)
+/* Any 1 plane. (memset)*/
 #define ANY1(NAMEANY, ANY_SIMD, T, BPP, MASK)      \
   void NAMEANY(uint8* dst_ptr, T v32, int width) { \
     int r, n;                                      \
@@ -766,7 +765,7 @@ ANY1(ARGBSetRow_Any_NEON, ARGBSetRow_NEON, uint32, 4, 3)
 #endif
 #undef ANY1
 
-// Any 1 to 2.  Outputs UV planes.
+/* Any 1 to 2.  Outputs UV planes.*/
 #define ANY12(NAMEANY, ANY_SIMD, UVSHIFT, BPP, DUVSHIFT, MASK)                \
   void NAMEANY(const uint8* src_ptr, uint8* dst_u, uint8* dst_v, int width) { \
     int r, n;                                                                 \
@@ -818,8 +817,8 @@ ANY12(UYVYToUV422Row_Any_MSA, UYVYToUV422Row_MSA, 1, 4, 1, 31)
 #endif
 #undef ANY12
 
-// Any 1 to 2 with source stride (2 rows of source).  Outputs UV planes.
-// 128 byte row allows for 32 avx ARGB pixels.
+/* Any 1 to 2 with source stride (2 rows of source).  Outputs UV planes.*/
+/* 128 byte row allows for 32 avx ARGB pixels.*/
 #define ANY12S(NAMEANY, ANY_SIMD, UVSHIFT, BPP, MASK)                        \
   void NAMEANY(const uint8* src_ptr, int src_stride_ptr, uint8* dst_u,       \
                uint8* dst_v, int width) {                                    \
@@ -914,6 +913,5 @@ ANY12S(UYVYToUVRow_Any_MSA, UYVYToUVRow_MSA, 1, 4, 31)
 #undef ANY12S
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

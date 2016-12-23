@@ -13,7 +13,6 @@
 #include "libyuv/compare_row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -27,8 +26,8 @@ uint32 SumSquareError_C(const uint8* src_a, const uint8* src_b, int count) {
   return sse;
 }
 
-// hash seed of 5381 recommended.
-// Internal C version of HashDjb2 with int sized count for efficiency.
+/* hash seed of 5381 recommended.*/
+/* Internal C version of HashDjb2 with int sized count for efficiency.*/
 uint32 HashDjb2_C(const uint8* src, int count, uint32 seed) {
   uint32 hash = seed;
   int i;
@@ -39,6 +38,5 @@ uint32 HashDjb2_C(const uint8* src, int count, uint32 seed) {
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

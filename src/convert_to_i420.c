@@ -15,15 +15,14 @@
 #include "libyuv/video_common.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Convert camera sample to I420 with cropping, rotation and vertical flip.
-// src_width is used for source stride computation
-// src_height is used to compute location of planes, and indicate inversion
-// sample_size is measured in bytes and is the size of the frame.
-//   With MJPEG it is the compressed size of the frame.
+/* Convert camera sample to I420 with cropping, rotation and vertical flip.*/
+/* src_width is used for source stride computation*/
+/* src_height is used to compute location of planes, and indicate inversion*/
+/* sample_size is measured in bytes and is the size of the frame.*/
+/*   With MJPEG it is the compressed size of the frame.*/
 LIBYUV_API
 int ConvertToI420(const uint8* sample,
                   size_t sample_size,
@@ -46,7 +45,7 @@ int ConvertToI420(const uint8* sample,
   const uint8* src;
   const uint8* src_uv;
   const int abs_src_height = (src_height < 0) ? -src_height : src_height;
-  // TODO(nisse): Why allow crop_height < 0?
+  /* TODO(nisse): Why allow crop_height < 0?*/
   const int abs_crop_height = (crop_height < 0) ? -crop_height : crop_height;
   int r = 0;
   LIBYUV_BOOL need_buf =
@@ -68,17 +67,17 @@ int ConvertToI420(const uint8* sample,
     return -1;
   }
 
-  // One pass rotation is available for some formats. For the rest, convert
-  // to I420 (with optional vertical flipping) into a temporary I420 buffer,
-  // and then rotate the I420 to the final destination buffer.
-  // For in-place conversion, if destination y is same as source sample,
-  // also enable temporary buffer.
+  /* One pass rotation is available for some formats. For the rest, convert*/
+  /* to I420 (with optional vertical flipping) into a temporary I420 buffer,*/
+  /* and then rotate the I420 to the final destination buffer.*/
+  /* For in-place conversion, if destination y is same as source sample,*/
+  /* also enable temporary buffer.*/
   if (need_buf) {
     int y_size = crop_width * abs_crop_height;
     int uv_size = ((crop_width + 1) / 2) * ((abs_crop_height + 1) / 2);
     rotate_buffer = (uint8*)malloc(y_size + uv_size * 2); /* NOLINT */
     if (!rotate_buffer) {
-      return 1;  // Out of memory runtime error.
+      return 1;  /* Out of memory runtime error.*/
     }
     y = rotate_buffer;
     u = y + y_size;
@@ -88,7 +87,7 @@ int ConvertToI420(const uint8* sample,
   }
 
   switch (format) {
-    // Single plane formats
+    /* Single plane formats*/
     case FOURCC_YUY2:
       src = sample + (aligned_src_width * crop_y + crop_x) * 2;
       r = YUY2ToI420(src, aligned_src_width * 2, y, y_stride, u, u_stride, v,
@@ -149,7 +148,7 @@ int ConvertToI420(const uint8* sample,
       r = I400ToI420(src, src_width, y, y_stride, u, u_stride, v, v_stride,
                      crop_width, inv_crop_height);
       break;
-    // Biplanar formats
+    /* Biplanar formats*/
     case FOURCC_NV12:
       src = sample + (src_width * crop_y + crop_x);
       src_uv = sample + (src_width * src_height) +
@@ -162,7 +161,7 @@ int ConvertToI420(const uint8* sample,
       src = sample + (src_width * crop_y + crop_x);
       src_uv = sample + (src_width * src_height) +
                ((crop_y / 2) * aligned_src_width) + ((crop_x / 2) * 2);
-      // Call NV12 but with u and v parameters swapped.
+      /* Call NV12 but with u and v parameters swapped.*/
       r = NV12ToI420Rotate(src, src_width, src_uv, aligned_src_width, y,
                            y_stride, v, v_stride, u, u_stride, crop_width,
                            inv_crop_height, rotation);
@@ -172,7 +171,7 @@ int ConvertToI420(const uint8* sample,
       r = M420ToI420(src, src_width, y, y_stride, u, u_stride, v, v_stride,
                      crop_width, inv_crop_height);
       break;
-    // Triplanar formats
+    /* Triplanar formats*/
     case FOURCC_I420:
     case FOURCC_YV12: {
       const uint8* src_y = sample + (src_width * crop_y + crop_x);
@@ -242,7 +241,7 @@ int ConvertToI420(const uint8* sample,
       break;
 #endif
     default:
-      r = -1;  // unknown fourcc - return failure code.
+      r = -1;  /* unknown fourcc - return failure code.*/
   }
 
   if (need_buf) {
@@ -258,6 +257,5 @@ int ConvertToI420(const uint8* sample,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

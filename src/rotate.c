@@ -17,7 +17,6 @@
 #include "libyuv/row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -63,11 +62,11 @@ void TransposePlane(const uint8* src,
   }
 #endif
 
-  // Work across the source in 8x8 tiles
+  /* Work across the source in 8x8 tiles*/
   while (i >= 8) {
     TransposeWx8(src, src_stride, dst, dst_stride, width);
-    src += 8 * src_stride;  // Go down 8 rows.
-    dst += 8;               // Move over 8 columns.
+    src += 8 * src_stride;  /* Go down 8 rows.*/
+    dst += 8;               /* Move over 8 columns.*/
     i -= 8;
   }
 
@@ -83,9 +82,9 @@ void RotatePlane90(const uint8* src,
                    int dst_stride,
                    int width,
                    int height) {
-  // Rotate by 90 is a transpose with the source read
-  // from bottom to top. So set the source pointer to the end
-  // of the buffer and flip the sign of the source stride.
+  /* Rotate by 90 is a transpose with the source read*/
+  /* from bottom to top. So set the source pointer to the end*/
+  /* of the buffer and flip the sign of the source stride.*/
   src += src_stride * (height - 1);
   src_stride = -src_stride;
   TransposePlane(src, src_stride, dst, dst_stride, width, height);
@@ -98,9 +97,9 @@ void RotatePlane270(const uint8* src,
                     int dst_stride,
                     int width,
                     int height) {
-  // Rotate by 270 is a transpose with the destination written
-  // from bottom to top. So set the destination pointer to the end
-  // of the buffer and flip the sign of the destination stride.
+  /* Rotate by 270 is a transpose with the destination written*/
+  /* from bottom to top. So set the destination pointer to the end*/
+  /* of the buffer and flip the sign of the destination stride.*/
   dst += dst_stride * (width - 1);
   dst_stride = -dst_stride;
   TransposePlane(src, src_stride, dst, dst_stride, width, height);
@@ -113,7 +112,7 @@ void RotatePlane180(const uint8* src,
                     int dst_stride,
                     int width,
                     int height) {
-  // Swap first and last row and mirror the content. Uses a temporary row.
+  /* Swap first and last row and mirror the content. Uses a temporary row.*/
   const uint8* src_bot = src + src_stride * (height - 1);
   uint8* dst_bot = dst + dst_stride * (height - 1);
   int half_height = (height + 1) >> 1;
@@ -146,7 +145,7 @@ void RotatePlane180(const uint8* src,
     }
   }
 #endif
-// TODO(fbarchard): Mirror on mips handle unaligned memory.
+/* TODO(fbarchard): Mirror on mips handle unaligned memory.*/
 #if defined(HAS_MIRRORROW_DSPR2)
   if (TestCpuFlag(kCpuHasDSPR2) && IS_ALIGNED(src, 4) &&
       IS_ALIGNED(src_stride, 4) && IS_ALIGNED(dst, 4) &&
@@ -188,13 +187,13 @@ void RotatePlane180(const uint8* src,
   }
 #endif
 
-  // Odd height will harmlessly mirror the middle row twice.
+  /* Odd height will harmlessly mirror the middle row twice.*/
   for (y = 0; y < half_height; ++y) {
-    MirrorRow(src, row, width);  // Mirror first row into a buffer
+    MirrorRow(src, row, width);  /* Mirror first row into a buffer*/
     src += src_stride;
-    MirrorRow(src_bot, dst, width);  // Mirror last row into first row
+    MirrorRow(src_bot, dst, width);  /* Mirror last row into first row*/
     dst += dst_stride;
-    CopyRow(row, dst_bot, width);  // Copy first mirrored row into last
+    CopyRow(row, dst_bot, width);  /* Copy first mirrored row into last*/
     src_bot -= src_stride;
     dst_bot -= dst_stride;
   }
@@ -234,13 +233,13 @@ void TransposeUV(const uint8* src,
   }
 #endif
 
-  // Work through the source in 8x8 tiles.
+  /* Work through the source in 8x8 tiles.*/
   while (i >= 8) {
     TransposeUVWx8(src, src_stride, dst_a, dst_stride_a, dst_b, dst_stride_b,
                    width);
-    src += 8 * src_stride;  // Go down 8 rows.
-    dst_a += 8;             // Move over 8 columns.
-    dst_b += 8;             // Move over 8 columns.
+    src += 8 * src_stride;  /* Go down 8 rows.*/
+    dst_a += 8;             /* Move over 8 columns.*/
+    dst_b += 8;             /* Move over 8 columns.*/
     i -= 8;
   }
 
@@ -284,7 +283,7 @@ void RotateUV270(const uint8* src,
               height);
 }
 
-// Rotate 180 is a horizontal and vertical flip.
+/* Rotate 180 is a horizontal and vertical flip.*/
 LIBYUV_API
 void RotateUV180(const uint8* src,
                  int src_stride,
@@ -337,7 +336,7 @@ int RotatePlane(const uint8* src,
     return -1;
   }
 
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src = src + (height - 1) * src_stride;
@@ -346,7 +345,7 @@ int RotatePlane(const uint8* src,
 
   switch (mode) {
     case kRotate0:
-      // copy frame
+      /* copy frame*/
       CopyPlane(src, src_stride, dst, dst_stride, width, height);
       return 0;
     case kRotate90:
@@ -387,7 +386,7 @@ int I420Rotate(const uint8* src_y,
     return -1;
   }
 
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     halfheight = (height + 1) >> 1;
@@ -401,7 +400,7 @@ int I420Rotate(const uint8* src_y,
 
   switch (mode) {
     case kRotate0:
-      // copy frame
+      /* copy frame*/
       return I420Copy(src_y, src_stride_y, src_u, src_stride_u, src_v,
                       src_stride_v, dst_y, dst_stride_y, dst_u, dst_stride_u,
                       dst_v, dst_stride_v, width, height);
@@ -453,7 +452,7 @@ int NV12ToI420Rotate(const uint8* src_y,
     return -1;
   }
 
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     halfheight = (height + 1) >> 1;
@@ -465,7 +464,7 @@ int NV12ToI420Rotate(const uint8* src_y,
 
   switch (mode) {
     case kRotate0:
-      // copy frame
+      /* copy frame*/
       return NV12ToI420(src_y, src_stride_y, src_uv, src_stride_uv, dst_y,
                         dst_stride_y, dst_u, dst_stride_u, dst_v, dst_stride_v,
                         width, height);
@@ -491,6 +490,5 @@ int NV12ToI420Rotate(const uint8* src_y,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

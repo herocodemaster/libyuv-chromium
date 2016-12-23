@@ -16,11 +16,10 @@
 #include "libyuv/row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// ARGB little endian (bgra in memory) to I444
+/* ARGB little endian (bgra in memory) to I444*/
 LIBYUV_API
 int ARGBToI444(const uint8* src_argb,
                int src_stride_argb,
@@ -45,7 +44,7 @@ int ARGBToI444(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_y == width &&
       dst_stride_u == width && dst_stride_v == width) {
     width *= height;
@@ -120,7 +119,7 @@ int ARGBToI444(const uint8* src_argb,
   return 0;
 }
 
-// ARGB little endian (bgra in memory) to I422
+/* ARGB little endian (bgra in memory) to I422*/
 LIBYUV_API
 int ARGBToI422(const uint8* src_argb,
                int src_stride_argb,
@@ -140,13 +139,13 @@ int ARGBToI422(const uint8* src_argb,
   if (!src_argb || !dst_y || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_y == width &&
       dst_stride_u * 2 == width && dst_stride_v * 2 == width) {
     width *= height;
@@ -237,7 +236,7 @@ int ARGBToNV12(const uint8* src_argb,
   if (!src_argb || !dst_y || !dst_uv || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
@@ -320,7 +319,7 @@ int ARGBToNV12(const uint8* src_argb,
   }
 #endif
   {
-    // Allocate a rows of uv.
+    /* Allocate a rows of uv.*/
     uint8* row_u, *row_u_mem;
     uint8* row_v;
     align_buffer_64(row_u, ((halfwidth + 31) & ~31) * 2);
@@ -345,7 +344,7 @@ int ARGBToNV12(const uint8* src_argb,
   return 0;
 }
 
-// Same as NV12 but U and V swapped.
+/* Same as NV12 but U and V swapped.*/
 LIBYUV_API
 int ARGBToNV21(const uint8* src_argb,
                int src_stride_argb,
@@ -366,7 +365,7 @@ int ARGBToNV21(const uint8* src_argb,
   if (!src_argb || !dst_y || !dst_uv || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
@@ -449,7 +448,7 @@ int ARGBToNV21(const uint8* src_argb,
   }
 #endif
   {
-    // Allocate a rows of uv.
+    /* Allocate a rows of uv.*/
     uint8* row_u, *row_u_mem;
     uint8* row_v;
     align_buffer_64(row_u, ((halfwidth + 31) & ~31) * 2);
@@ -474,7 +473,7 @@ int ARGBToNV21(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB to YUY2.
+/* Convert ARGB to YUY2.*/
 LIBYUV_API
 int ARGBToYUY2(const uint8* src_argb,
                int src_stride_argb,
@@ -494,13 +493,13 @@ int ARGBToYUY2(const uint8* src_argb,
   if (!src_argb || !dst_yuy2 || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_yuy2 = dst_yuy2 + (height - 1) * dst_stride_yuy2;
     dst_stride_yuy2 = -dst_stride_yuy2;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_yuy2 == width * 2) {
     width *= height;
     height = 1;
@@ -584,7 +583,7 @@ int ARGBToYUY2(const uint8* src_argb,
 #endif
 
   {
-    // Allocate a rows of yuv.
+    /* Allocate a rows of yuv.*/
     uint8* row_y, *row_y_mem;
     uint8* row_u;
     uint8* row_v;
@@ -605,7 +604,7 @@ int ARGBToYUY2(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB to UYVY.
+/* Convert ARGB to UYVY.*/
 LIBYUV_API
 int ARGBToUYVY(const uint8* src_argb,
                int src_stride_argb,
@@ -625,13 +624,13 @@ int ARGBToUYVY(const uint8* src_argb,
   if (!src_argb || !dst_uyvy || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     dst_uyvy = dst_uyvy + (height - 1) * dst_stride_uyvy;
     dst_stride_uyvy = -dst_stride_uyvy;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_uyvy == width * 2) {
     width *= height;
     height = 1;
@@ -715,7 +714,7 @@ int ARGBToUYVY(const uint8* src_argb,
 #endif
 
   {
-    // Allocate a rows of yuv.
+    /* Allocate a rows of yuv.*/
     uint8* row_y, *row_y_mem;
     uint8* row_u;
     uint8* row_v;
@@ -736,7 +735,7 @@ int ARGBToUYVY(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB to I400.
+/* Convert ARGB to I400.*/
 LIBYUV_API
 int ARGBToI400(const uint8* src_argb,
                int src_stride_argb,
@@ -755,7 +754,7 @@ int ARGBToI400(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_y == width) {
     width *= height;
     height = 1;
@@ -802,11 +801,11 @@ int ARGBToI400(const uint8* src_argb,
   return 0;
 }
 
-// Shuffle table for converting ARGB to RGBA.
+/* Shuffle table for converting ARGB to RGBA.*/
 static uvec8 kShuffleMaskARGBToRGBA = {3u,  0u, 1u, 2u,  7u,  4u,  5u,  6u,
                                        11u, 8u, 9u, 10u, 15u, 12u, 13u, 14u};
 
-// Convert ARGB to RGBA.
+/* Convert ARGB to RGBA.*/
 LIBYUV_API
 int ARGBToRGBA(const uint8* src_argb,
                int src_stride_argb,
@@ -818,7 +817,7 @@ int ARGBToRGBA(const uint8* src_argb,
                      (const uint8*)(&kShuffleMaskARGBToRGBA), width, height);
 }
 
-// Convert ARGB To RGB24.
+/* Convert ARGB To RGB24.*/
 LIBYUV_API
 int ARGBToRGB24(const uint8* src_argb,
                 int src_stride_argb,
@@ -837,7 +836,7 @@ int ARGBToRGB24(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_rgb24 == width * 3) {
     width *= height;
     height = 1;
@@ -876,7 +875,7 @@ int ARGBToRGB24(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB To RAW.
+/* Convert ARGB To RAW.*/
 LIBYUV_API
 int ARGBToRAW(const uint8* src_argb,
               int src_stride_argb,
@@ -895,7 +894,7 @@ int ARGBToRAW(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_raw == width * 3) {
     width *= height;
     height = 1;
@@ -934,12 +933,12 @@ int ARGBToRAW(const uint8* src_argb,
   return 0;
 }
 
-// Ordered 8x8 dither for 888 to 565.  Values from 0 to 7.
+/* Ordered 8x8 dither for 888 to 565.  Values from 0 to 7.*/
 static const uint8 kDither565_4x4[16] = {
     0, 4, 1, 5, 6, 2, 7, 3, 1, 5, 0, 4, 7, 3, 6, 2,
 };
 
-// Convert ARGB To RGB565 with 4x4 dither matrix (16 bytes).
+/* Convert ARGB To RGB565 with 4x4 dither matrix (16 bytes).*/
 LIBYUV_API
 int ARGBToRGB565Dither(const uint8* src_argb,
                        int src_stride_argb,
@@ -997,8 +996,8 @@ int ARGBToRGB565Dither(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB To RGB565.
-// TODO(fbarchard): Consider using dither function low level with zeros.
+/* Convert ARGB To RGB565.*/
+/* TODO(fbarchard): Consider using dither function low level with zeros.*/
 LIBYUV_API
 int ARGBToRGB565(const uint8* src_argb,
                  int src_stride_argb,
@@ -1017,7 +1016,7 @@ int ARGBToRGB565(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_rgb565 == width * 2) {
     width *= height;
     height = 1;
@@ -1064,7 +1063,7 @@ int ARGBToRGB565(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB To ARGB1555.
+/* Convert ARGB To ARGB1555.*/
 LIBYUV_API
 int ARGBToARGB1555(const uint8* src_argb,
                    int src_stride_argb,
@@ -1083,7 +1082,7 @@ int ARGBToARGB1555(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_argb1555 == width * 2) {
     width *= height;
     height = 1;
@@ -1130,7 +1129,7 @@ int ARGBToARGB1555(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB To ARGB4444.
+/* Convert ARGB To ARGB4444.*/
 LIBYUV_API
 int ARGBToARGB4444(const uint8* src_argb,
                    int src_stride_argb,
@@ -1149,7 +1148,7 @@ int ARGBToARGB4444(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_argb4444 == width * 2) {
     width *= height;
     height = 1;
@@ -1196,7 +1195,7 @@ int ARGBToARGB4444(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB to J420. (JPeg full range I420).
+/* Convert ARGB to J420. (JPeg full range I420).*/
 LIBYUV_API
 int ARGBToJ420(const uint8* src_argb,
                int src_stride_argb,
@@ -1216,7 +1215,7 @@ int ARGBToJ420(const uint8* src_argb,
   if (!src_argb || !dst_yj || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
@@ -1273,7 +1272,7 @@ int ARGBToJ420(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB to J422. (JPeg full range I422).
+/* Convert ARGB to J422. (JPeg full range I422).*/
 LIBYUV_API
 int ARGBToJ422(const uint8* src_argb,
                int src_stride_argb,
@@ -1293,13 +1292,13 @@ int ARGBToJ422(const uint8* src_argb,
   if (!src_argb || !dst_yj || !dst_u || !dst_v || width <= 0 || height == 0) {
     return -1;
   }
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_yj == width &&
       dst_stride_u * 2 == width && dst_stride_v * 2 == width) {
     width *= height;
@@ -1352,7 +1351,7 @@ int ARGBToJ422(const uint8* src_argb,
   return 0;
 }
 
-// Convert ARGB to J400.
+/* Convert ARGB to J400.*/
 LIBYUV_API
 int ARGBToJ400(const uint8* src_argb,
                int src_stride_argb,
@@ -1371,7 +1370,7 @@ int ARGBToJ400(const uint8* src_argb,
     src_argb = src_argb + (height - 1) * src_stride_argb;
     src_stride_argb = -src_stride_argb;
   }
-  // Coalesce rows.
+  /* Coalesce rows.*/
   if (src_stride_argb == width * 4 && dst_stride_yj == width) {
     width *= height;
     height = 1;
@@ -1411,6 +1410,5 @@ int ARGBToJ400(const uint8* src_argb,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

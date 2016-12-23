@@ -11,12 +11,11 @@
 #ifndef INCLUDE_LIBYUV_ROW_H_
 #define INCLUDE_LIBYUV_ROW_H_
 
-#include <stdlib.h>  // For malloc.
+#include <stdlib.h>  /* For malloc.*/
 
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -34,13 +33,13 @@ extern "C" {
     (defined(__i386__) && !defined(__SSE2__))
 #define LIBYUV_DISABLE_X86
 #endif
-// MemorySanitizer does not support assembly code yet. http://crbug.com/344505
+/* MemorySanitizer does not support assembly code yet. http://crbug.com/344505*/
 #if defined(__has_feature)
 #if __has_feature(memory_sanitizer)
 #define LIBYUV_DISABLE_X86
 #endif
 #endif
-// True if compiling for SSSE3 as a requirement.
+/* True if compiling for SSSE3 as a requirement.*/
 #if defined(__SSSE3__) || (defined(_M_IX86_FP) && (_M_IX86_FP >= 3))
 #define LIBYUV_SSSE3_ONLY
 #endif
@@ -48,37 +47,37 @@ extern "C" {
 #if defined(__native_client__)
 #define LIBYUV_DISABLE_NEON
 #endif
-// clang >= 3.5.0 required for Arm64.
+/* clang >= 3.5.0 required for Arm64.*/
 #if defined(__clang__) && defined(__aarch64__) && !defined(LIBYUV_DISABLE_NEON)
 #if (__clang_major__ < 3) || (__clang_major__ == 3 && (__clang_minor__ < 5))
 #define LIBYUV_DISABLE_NEON
-#endif  // clang >= 3.5
-#endif  // __clang__
+#endif  /* clang >= 3.5*/
+#endif  /* __clang__*/
 
-// GCC >= 4.7.0 required for AVX2.
+/* GCC >= 4.7.0 required for AVX2.*/
 #if defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && (__GNUC_MINOR__ >= 7))
 #define GCC_HAS_AVX2 1
-#endif  // GNUC >= 4.7
-#endif  // __GNUC__
+#endif  /* GNUC >= 4.7*/
+#endif  /* __GNUC__*/
 
-// clang >= 3.4.0 required for AVX2.
+/* clang >= 3.4.0 required for AVX2.*/
 #if defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
 #if (__clang_major__ > 3) || (__clang_major__ == 3 && (__clang_minor__ >= 4))
 #define CLANG_HAS_AVX2 1
-#endif  // clang >= 3.4
-#endif  // __clang__
+#endif  /* clang >= 3.4*/
+#endif  /* __clang__*/
 
-// Visual C 2012 required for AVX2.
+/* Visual C 2012 required for AVX2.*/
 #if defined(_M_IX86) && !defined(__clang__) && defined(_MSC_VER) && \
     _MSC_VER >= 1700
 #define VISUALC_HAS_AVX2 1
-#endif  // VisualStudio >= 2012
+#endif  /* VisualStudio >= 2012*/
 
-// The following are available on all x86 platforms:
+/* The following are available on all x86 platforms:*/
 #if !defined(LIBYUV_DISABLE_X86) && \
     (defined(_M_IX86) || defined(__x86_64__) || defined(__i386__))
-// Conversions:
+/* Conversions:*/
 #define HAS_ABGRTOUVROW_SSSE3
 #define HAS_ABGRTOYROW_SSSE3
 #define HAS_ARGB1555TOARGBROW_SSE2
@@ -142,7 +141,7 @@ extern "C" {
 #define HAS_YUY2TOUVROW_SSE2
 #define HAS_YUY2TOYROW_SSE2
 
-// Effects:
+/* Effects:*/
 #define HAS_ARGBADDROW_SSE2
 #define HAS_ARGBAFFINEROW_SSE2
 #define HAS_ARGBATTENUATEROW_SSSE3
@@ -172,19 +171,19 @@ extern "C" {
 #define HAS_SOBELXYROW_SSE2
 #define HAS_SOBELYROW_SSE2
 
-// The following functions fail on gcc/clang 32 bit with fpic and framepointer.
-// caveat: clangcl uses row_win.cc which works.
+/* The following functions fail on gcc/clang 32 bit with fpic and framepointer.*/
+/* caveat: clangcl uses row_win.cc which works.*/
 #if defined(__x86_64__) || !defined(__pic__) || defined(__clang__) || \
     defined(_MSC_VER)
-// TODO(fbarchard): fix build error on android_full_debug=1
-// https://code.google.com/p/libyuv/issues/detail?id=517
+/* TODO(fbarchard): fix build error on android_full_debug=1*/
+/* https://code.google.com/p/libyuv/issues/detail?id=517*/
 #define HAS_I422ALPHATOARGBROW_SSSE3
 #endif
 #endif
 
-// The following are available on all x86 platforms, but
-// require VS2012, clang 3.4 or gcc 4.7.
-// The code supports NaCL but requires a new compiler and validator.
+/* The following are available on all x86 platforms, but*/
+/* require VS2012, clang 3.4 or gcc 4.7.*/
+/* The code supports NaCL but requires a new compiler and validator.*/
 #if !defined(LIBYUV_DISABLE_X86) &&                          \
     (defined(VISUALC_HAS_AVX2) || defined(CLANG_HAS_AVX2) || \
      defined(GCC_HAS_AVX2))
@@ -202,7 +201,7 @@ extern "C" {
 #define HAS_COPYROW_AVX
 #define HAS_H422TOARGBROW_AVX2
 #define HAS_HALFFLOATROW_AVX2
-//  #define HAS_HALFFLOATROW_F16C  // Enable to test halffloat cast
+/*  #define HAS_HALFFLOATROW_F16C  // Enable to test halffloat cast*/
 #define HAS_I400TOARGBROW_AVX2
 #define HAS_I422TOARGB1555ROW_AVX2
 #define HAS_I422TOARGB4444ROW_AVX2
@@ -228,7 +227,7 @@ extern "C" {
 #define HAS_YUY2TOUVROW_AVX2
 #define HAS_YUY2TOYROW_AVX2
 
-// Effects:
+/* Effects:*/
 #define HAS_ARGBADDROW_AVX2
 #define HAS_ARGBATTENUATEROW_AVX2
 #define HAS_ARGBMULTIPLYROW_AVX2
@@ -238,14 +237,14 @@ extern "C" {
 
 #if defined(__x86_64__) || !defined(__pic__) || defined(__clang__) || \
     defined(_MSC_VER)
-// TODO(fbarchard): fix build error on android_full_debug=1
-// https://code.google.com/p/libyuv/issues/detail?id=517
+/* TODO(fbarchard): fix build error on android_full_debug=1*/
+/* https://code.google.com/p/libyuv/issues/detail?id=517*/
 #define HAS_I422ALPHATOARGBROW_AVX2
 #endif
 #endif
 
-// The following are available for AVX2 Visual C and clangcl 32 bit:
-// TODO(fbarchard): Port to gcc.
+/* The following are available for AVX2 Visual C and clangcl 32 bit:*/
+/* TODO(fbarchard): Port to gcc.*/
 #if !defined(LIBYUV_DISABLE_X86) && defined(_M_IX86) && \
     (defined(VISUALC_HAS_AVX2) || defined(CLANG_HAS_AVX2))
 #define HAS_ARGB1555TOARGBROW_AVX2
@@ -257,14 +256,14 @@ extern "C" {
 #define HAS_RGB565TOARGBROW_AVX2
 #endif
 
-// The following are also available on x64 Visual C.
+/* The following are also available on x64 Visual C.*/
 #if !defined(LIBYUV_DISABLE_X86) && defined(_MSC_VER) && defined(_M_X64) && \
     (!defined(__clang__) || defined(__SSSE3__))
 #define HAS_I422ALPHATOARGBROW_SSSE3
 #define HAS_I422TOARGBROW_SSSE3
 #endif
 
-// The following are available on Neon platforms:
+/* The following are available on Neon platforms:*/
 #if !defined(LIBYUV_DISABLE_NEON) && \
     (defined(__aarch64__) || defined(__ARM_NEON__) || defined(LIBYUV_NEON))
 #define HAS_ABGRTOUVROW_NEON
@@ -333,7 +332,7 @@ extern "C" {
 #define HAS_YUY2TOUVROW_NEON
 #define HAS_YUY2TOYROW_NEON
 
-// Effects:
+/* Effects:*/
 #define HAS_ARGBADDROW_NEON
 #define HAS_ARGBATTENUATEROW_NEON
 #define HAS_ARGBBLENDROW_NEON
@@ -354,7 +353,7 @@ extern "C" {
 #define HAS_SOBELYROW_NEON
 #endif
 
-// The following are available on Mips platforms:
+/* The following are available on Mips platforms:*/
 #if !defined(LIBYUV_DISABLE_MIPS) && defined(__mips__) && \
     (_MIPS_SIM == _MIPS_SIM_ABI32) && (__mips_isa_rev < 6)
 #define HAS_COPYROW_MIPS
@@ -414,7 +413,7 @@ typedef __declspec(align(32)) uint16 ulvec16[16];
 typedef __declspec(align(32)) uint32 ulvec32[8];
 typedef __declspec(align(32)) uint8 ulvec8[32];
 #elif !defined(__pnacl__) && (defined(__GNUC__) || defined(__clang__))
-// Caveat GCC 4.2 to 4.7 have a known issue using vectors with const.
+/* Caveat GCC 4.2 to 4.7 have a known issue using vectors with const.*/
 #if defined(CLANG_HAS_AVX2) || defined(GCC_HAS_AVX2)
 #define SIMD_ALIGNED(var) var __attribute__((aligned(32)))
 #else
@@ -449,7 +448,7 @@ typedef uint8 ulvec8[32];
 #endif
 
 #if defined(__aarch64__)
-// This struct is for Arm64 color conversion.
+/* This struct is for Arm64 color conversion.*/
 struct YuvConstants {
   uvec16 kUVToRB;
   uvec16 kUVToRB2;
@@ -459,7 +458,7 @@ struct YuvConstants {
   vec32 kYToRgb;
 };
 #elif defined(__arm__)
-// This struct is for ArmV7 color conversion.
+/* This struct is for ArmV7 color conversion.*/
 struct YuvConstants {
   uvec8 kUVToRB;
   uvec8 kUVToG;
@@ -467,7 +466,7 @@ struct YuvConstants {
   vec32 kYToRgb;
 };
 #else
-// This struct is for Intel color conversion.
+/* This struct is for Intel color conversion.*/
 struct YuvConstants {
   int8 kUVToB[32];
   int8 kUVToG[32];
@@ -478,7 +477,7 @@ struct YuvConstants {
   int16 kYToRgb[16];
 };
 
-// Offsets into YuvConstants structure
+/* Offsets into YuvConstants structure*/
 #define KUVTOB 0
 #define KUVTOG 32
 #define KUVTOR 64
@@ -488,15 +487,15 @@ struct YuvConstants {
 #define KYTORGB 192
 #endif
 
-// Conversion matrix for YUV to RGB
-extern const struct YuvConstants SIMD_ALIGNED(kYuvI601Constants);  // BT.601
-extern const struct YuvConstants SIMD_ALIGNED(kYuvJPEGConstants);  // JPeg
-extern const struct YuvConstants SIMD_ALIGNED(kYuvH709Constants);  // BT.709
+/* Conversion matrix for YUV to RGB*/
+extern const struct YuvConstants SIMD_ALIGNED(kYuvI601Constants);  /* BT.601*/
+extern const struct YuvConstants SIMD_ALIGNED(kYuvJPEGConstants);  /* JPeg*/
+extern const struct YuvConstants SIMD_ALIGNED(kYuvH709Constants);  /* BT.709*/
 
-// Conversion matrix for YVU to BGR
-extern const struct YuvConstants SIMD_ALIGNED(kYvuI601Constants);  // BT.601
-extern const struct YuvConstants SIMD_ALIGNED(kYvuJPEGConstants);  // JPeg
-extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  // BT.709
+/* Conversion matrix for YVU to BGR*/
+extern const struct YuvConstants SIMD_ALIGNED(kYvuI601Constants);  /* BT.601*/
+extern const struct YuvConstants SIMD_ALIGNED(kYvuJPEGConstants);  /* JPeg*/
+extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  /* BT.709*/
 
 #if defined(__APPLE__) || defined(__x86_64__) || defined(__llvm__)
 #define OMITFP
@@ -504,14 +503,14 @@ extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  // BT.709
 #define OMITFP __attribute__((optimize("omit-frame-pointer")))
 #endif
 
-// NaCL macros for GCC x86 and x64.
+/* NaCL macros for GCC x86 and x64.*/
 #if defined(__native_client__)
 #define LABELALIGN ".p2align 5\n"
 #else
 #define LABELALIGN
 #endif
 #if defined(__native_client__) && defined(__x86_64__)
-// r14 is used for MEMOP macros.
+/* r14 is used for MEMOP macros.*/
 #define NACL_R14 "r14",
 #define BUNDLELOCK ".bundle_lock\n"
 #define BUNDLEUNLOCK ".bundle_unlock\n"
@@ -543,7 +542,7 @@ extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  // BT.709
   BUNDLELOCK                                                          \
   "lea " #offset "(%q" #base ",%q" #index "," #scale "),%%r14d\n" #op \
   " $" #sel ",%%" #reg ",(%%r15,%%r14)\n" BUNDLEUNLOCK
-#else  // defined(__native_client__) && defined(__x86_64__)
+#else  /* defined(__native_client__) && defined(__x86_64__)*/
 #define NACL_R14
 #define BUNDLEALIGN
 #define MEMACCESS(base) "(%" #base ")"
@@ -565,7 +564,7 @@ extern const struct YuvConstants SIMD_ALIGNED(kYvuH709Constants);  // BT.709
           ",%%" #reg2 "\n"
 #define VEXTOPMEM(op, sel, reg, offset, base, index, scale) \
   #op " $" #sel ",%%" #reg "," #offset "(%" #base ",%" #index "," #scale ")\n"
-#endif  // defined(__native_client__) && defined(__x86_64__)
+#endif  /* defined(__native_client__) && defined(__x86_64__)*/
 
 #if defined(__arm__) || defined(__aarch64__)
 #undef MEMACCESS
@@ -1171,7 +1170,7 @@ void ARGBSetRow_X86(uint8* dst_argb, uint32 v32, int count);
 void ARGBSetRow_NEON(uint8* dst_argb, uint32 v32, int count);
 void ARGBSetRow_Any_NEON(uint8* dst_argb, uint32 v32, int count);
 
-// ARGBShufflers for BGRAToARGB etc.
+/* ARGBShufflers for BGRAToARGB etc.*/
 void ARGBShuffleRow_C(const uint8* src_argb,
                       uint8* dst_argb,
                       const uint8* shuffler,
@@ -1741,7 +1740,7 @@ void I400ToARGBRow_Any_SSE2(const uint8* src_y, uint8* dst_argb, int width);
 void I400ToARGBRow_Any_AVX2(const uint8* src_y, uint8* dst_argb, int width);
 void I400ToARGBRow_Any_NEON(const uint8* src_y, uint8* dst_argb, int width);
 
-// ARGB preattenuated alpha blend.
+/* ARGB preattenuated alpha blend.*/
 void ARGBBlendRow_SSSE3(const uint8* src_argb,
                         const uint8* src_argb1,
                         uint8* dst_argb,
@@ -1755,7 +1754,7 @@ void ARGBBlendRow_C(const uint8* src_argb,
                     uint8* dst_argb,
                     int width);
 
-// Unattenuated planar alpha blend.
+/* Unattenuated planar alpha blend.*/
 void BlendPlaneRow_SSSE3(const uint8* src0,
                          const uint8* src1,
                          const uint8* alpha,
@@ -1782,8 +1781,8 @@ void BlendPlaneRow_C(const uint8* src0,
                      uint8* dst,
                      int width);
 
-// ARGB multiply images. Same API as Blend, but these require
-// pointer and width alignment for SSE2.
+/* ARGB multiply images. Same API as Blend, but these require*/
+/* pointer and width alignment for SSE2.*/
 void ARGBMultiplyRow_C(const uint8* src_argb,
                        const uint8* src_argb1,
                        uint8* dst_argb,
@@ -1821,7 +1820,7 @@ void ARGBMultiplyRow_Any_MSA(const uint8* src_argb,
                              uint8* dst_argb,
                              int width);
 
-// ARGB add images.
+/* ARGB add images.*/
 void ARGBAddRow_C(const uint8* src_argb,
                   const uint8* src_argb1,
                   uint8* dst_argb,
@@ -1859,8 +1858,8 @@ void ARGBAddRow_Any_MSA(const uint8* src_argb,
                         uint8* dst_argb,
                         int width);
 
-// ARGB subtract images. Same API as Blend, but these require
-// pointer and width alignment for SSE2.
+/* ARGB subtract images. Same API as Blend, but these require*/
+/* pointer and width alignment for SSE2.*/
 void ARGBSubtractRow_C(const uint8* src_argb,
                        const uint8* src_argb1,
                        uint8* dst_argb,
@@ -2339,7 +2338,7 @@ void I422ToUYVYRow_Any_MSA(const uint8* src_y,
                            uint8* dst_uyvy,
                            int width);
 
-// Effects related row functions.
+/* Effects related row functions.*/
 void ARGBAttenuateRow_C(const uint8* src_argb, uint8* dst_argb, int width);
 void ARGBAttenuateRow_SSSE3(const uint8* src_argb, uint8* dst_argb, int width);
 void ARGBAttenuateRow_AVX2(const uint8* src_argb, uint8* dst_argb, int width);
@@ -2357,7 +2356,7 @@ void ARGBAttenuateRow_Any_NEON(const uint8* src_argb,
                                uint8* dst_argb,
                                int width);
 
-// Inverse table for unattenuate, shared by C and SSE2.
+/* Inverse table for unattenuate, shared by C and SSE2.*/
 extern const uint32 fixed_invtbl8[256];
 void ARGBUnattenuateRow_C(const uint8* src_argb, uint8* dst_argb, int width);
 void ARGBUnattenuateRow_SSE2(const uint8* src_argb, uint8* dst_argb, int width);
@@ -2425,7 +2424,7 @@ void ARGBShadeRow_NEON(const uint8* src_argb,
                        int width,
                        uint32 value);
 
-// Used for blur.
+/* Used for blur.*/
 void CumulativeSumToAverageRow_SSE2(const int32* topleft,
                                     const int32* botleft,
                                     int width,
@@ -2461,7 +2460,7 @@ void ARGBAffineRow_SSE2(const uint8* src_argb,
                         const float* uv_dudv,
                         int width);
 
-// Used for I420Scale, ARGBScale, and ARGBInterpolate.
+/* Used for I420Scale, ARGBScale, and ARGBInterpolate.*/
 void InterpolateRow_C(uint8* dst_ptr,
                       const uint8* src_ptr,
                       ptrdiff_t src_stride_ptr,
@@ -2514,7 +2513,7 @@ void InterpolateRow_16_C(uint16* dst_ptr,
                          int width,
                          int source_y_fraction);
 
-// Sobel images.
+/* Sobel images.*/
 void SobelXRow_C(const uint8* src_y0,
                  const uint8* src_y1,
                  const uint8* src_y2,
@@ -2616,7 +2615,7 @@ void ARGBPolynomialRow_AVX2(const uint8* src_argb,
                             const float* poly,
                             int width);
 
-// Scale and convert to half float.
+/* Scale and convert to half float.*/
 void HalfFloatRow_C(const uint16* src, uint16* dst, float scale, int width);
 void HalfFloatRow_SSE2(const uint16* src, uint16* dst, float scale, int width);
 void HalfFloatRow_Any_SSE2(const uint16* src,
@@ -2661,8 +2660,7 @@ void ARGBLumaColorTableRow_SSSE3(const uint8* src_argb,
                                  uint32 lumacoeff);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_ROW_H_
+#endif  /* INCLUDE_LIBYUV_ROW_H_*/

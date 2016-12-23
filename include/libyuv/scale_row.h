@@ -15,7 +15,6 @@
 #include "libyuv/scale.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -23,34 +22,34 @@ extern "C" {
     (defined(__i386__) && !defined(__SSE2__))
 #define LIBYUV_DISABLE_X86
 #endif
-// MemorySanitizer does not support assembly code yet. http://crbug.com/344505
+/* MemorySanitizer does not support assembly code yet. http://crbug.com/344505*/
 #if defined(__has_feature)
 #if __has_feature(memory_sanitizer)
 #define LIBYUV_DISABLE_X86
 #endif
 #endif
 
-// GCC >= 4.7.0 required for AVX2.
+/* GCC >= 4.7.0 required for AVX2.*/
 #if defined(__GNUC__) && (defined(__x86_64__) || defined(__i386__))
 #if (__GNUC__ > 4) || (__GNUC__ == 4 && (__GNUC_MINOR__ >= 7))
 #define GCC_HAS_AVX2 1
-#endif  // GNUC >= 4.7
-#endif  // __GNUC__
+#endif  /* GNUC >= 4.7*/
+#endif  /* __GNUC__*/
 
-// clang >= 3.4.0 required for AVX2.
+/* clang >= 3.4.0 required for AVX2.*/
 #if defined(__clang__) && (defined(__x86_64__) || defined(__i386__))
 #if (__clang_major__ > 3) || (__clang_major__ == 3 && (__clang_minor__ >= 4))
 #define CLANG_HAS_AVX2 1
-#endif  // clang >= 3.4
-#endif  // __clang__
+#endif  /* clang >= 3.4*/
+#endif  /* __clang__*/
 
-// Visual C 2012 required for AVX2.
+/* Visual C 2012 required for AVX2.*/
 #if defined(_M_IX86) && !defined(__clang__) && defined(_MSC_VER) && \
     _MSC_VER >= 1700
 #define VISUALC_HAS_AVX2 1
-#endif  // VisualStudio >= 2012
+#endif  /* VisualStudio >= 2012*/
 
-// The following are available on all x86 platforms:
+/* The following are available on all x86 platforms:*/
 #if !defined(LIBYUV_DISABLE_X86) && \
     (defined(_M_IX86) || defined(__x86_64__) || defined(__i386__))
 #define HAS_FIXEDDIV1_X86
@@ -69,9 +68,9 @@ extern "C" {
 #define HAS_SCALEADDROW_SSE2
 #endif
 
-// The following are available on all x86 platforms, but
-// require VS2012, clang 3.4 or gcc 4.7.
-// The code supports NaCL but requires a new compiler and validator.
+/* The following are available on all x86 platforms, but*/
+/* require VS2012, clang 3.4 or gcc 4.7.*/
+/* The code supports NaCL but requires a new compiler and validator.*/
 #if !defined(LIBYUV_DISABLE_X86) &&                          \
     (defined(VISUALC_HAS_AVX2) || defined(CLANG_HAS_AVX2) || \
      defined(GCC_HAS_AVX2))
@@ -80,7 +79,7 @@ extern "C" {
 #define HAS_SCALEROWDOWN4_AVX2
 #endif
 
-// The following are available on Neon platforms:
+/* The following are available on Neon platforms:*/
 #if !defined(LIBYUV_DISABLE_NEON) && !defined(__native_client__) && \
     (defined(__ARM_NEON__) || defined(LIBYUV_NEON) || defined(__aarch64__))
 #define HAS_SCALEARGBCOLS_NEON
@@ -94,7 +93,7 @@ extern "C" {
 #define HAS_SCALEARGBFILTERCOLS_NEON
 #endif
 
-// The following are available on Mips platforms:
+/* The following are available on Mips platforms:*/
 #if !defined(LIBYUV_DISABLE_MIPS) && !defined(__native_client__) && \
     defined(__mips__) && defined(__mips_dsp) && (__mips_dsp_rev >= 2)
 #define HAS_SCALEROWDOWN2_DSPR2
@@ -103,7 +102,7 @@ extern "C" {
 #define HAS_SCALEROWDOWN38_DSPR2
 #endif
 
-// Scale ARGB vertically with bilinear interpolation.
+/* Scale ARGB vertically with bilinear interpolation.*/
 void ScalePlaneVertical(int src_height,
                         int dst_width,
                         int dst_height,
@@ -130,17 +129,17 @@ void ScalePlaneVertical_16(int src_height,
                            int wpp,
                            enum FilterMode filtering);
 
-// Simplify the filtering based on scale factors.
+/* Simplify the filtering based on scale factors.*/
 enum FilterMode ScaleFilterReduce(int src_width,
                                   int src_height,
                                   int dst_width,
                                   int dst_height,
                                   enum FilterMode filtering);
 
-// Divide num by div and return as 16.16 fixed point result.
+/* Divide num by div and return as 16.16 fixed point result.*/
 int FixedDiv_C(int num, int div);
 int FixedDiv_X86(int num, int div);
-// Divide num - 1 by div - 1 and return as 16.16 fixed point result.
+/* Divide num - 1 by div - 1 and return as 16.16 fixed point result.*/
 int FixedDiv1_C(int num, int div);
 int FixedDiv1_X86(int num, int div);
 #ifdef HAS_FIXEDDIV_X86
@@ -151,7 +150,7 @@ int FixedDiv1_X86(int num, int div);
 #define FixedDiv1 FixedDiv1_C
 #endif
 
-// Compute slope values for stepping.
+/* Compute slope values for stepping.*/
 void ScaleSlope(int src_width,
                 int src_height,
                 int dst_width,
@@ -344,7 +343,7 @@ void ScaleARGBFilterCols64_C(uint8* dst_argb,
                              int x,
                              int dx);
 
-// Specialized scalers for x86.
+/* Specialized scalers for x86.*/
 void ScaleRowDown2_SSSE3(const uint8* src_ptr,
                          ptrdiff_t src_stride,
                          uint8* dst_ptr,
@@ -500,7 +499,7 @@ void ScaleColsUp2_SSE2(uint8* dst_ptr,
                        int x,
                        int dx);
 
-// ARGB Column functions
+/* ARGB Column functions*/
 void ScaleARGBCols_SSE2(uint8* dst_argb,
                         const uint8* src_argb,
                         int dst_width,
@@ -537,7 +536,7 @@ void ScaleARGBCols_Any_NEON(uint8* dst_argb,
                             int x,
                             int dx);
 
-// ARGB Row functions
+/* ARGB Row functions*/
 void ScaleARGBRowDown2_SSE2(const uint8* src_argb,
                             ptrdiff_t src_stride,
                             uint8* dst_argb,
@@ -628,10 +627,10 @@ void ScaleARGBRowDownEvenBox_Any_NEON(const uint8* src_argb,
                                       uint8* dst_argb,
                                       int dst_width);
 
-// ScaleRowDown2Box also used by planar functions
-// NEON downscalers with interpolation.
+/* ScaleRowDown2Box also used by planar functions*/
+/* NEON downscalers with interpolation.*/
 
-// Note - not static due to reuse in convert for 444 to 420.
+/* Note - not static due to reuse in convert for 444 to 420.*/
 void ScaleRowDown2_NEON(const uint8* src_ptr,
                         ptrdiff_t src_stride,
                         uint8* dst,
@@ -654,9 +653,9 @@ void ScaleRowDown4Box_NEON(const uint8* src_ptr,
                            uint8* dst_ptr,
                            int dst_width);
 
-// Down scale from 4 to 3 pixels. Use the neon multilane read/write
-//  to load up the every 4th pixel into a 4 different registers.
-// Point samples 32 pixels to 24 pixels.
+/* Down scale from 4 to 3 pixels. Use the neon multilane read/write*/
+/*  to load up the every 4th pixel into a 4 different registers.*/
+/* Point samples 32 pixels to 24 pixels.*/
 void ScaleRowDown34_NEON(const uint8* src_ptr,
                          ptrdiff_t src_stride,
                          uint8* dst_ptr,
@@ -670,17 +669,17 @@ void ScaleRowDown34_1_Box_NEON(const uint8* src_ptr,
                                uint8* dst_ptr,
                                int dst_width);
 
-// 32 -> 12
+/* 32 -> 12*/
 void ScaleRowDown38_NEON(const uint8* src_ptr,
                          ptrdiff_t src_stride,
                          uint8* dst_ptr,
                          int dst_width);
-// 32x3 -> 12x1
+/* 32x3 -> 12x1*/
 void ScaleRowDown38_3_Box_NEON(const uint8* src_ptr,
                                ptrdiff_t src_stride,
                                uint8* dst_ptr,
                                int dst_width);
-// 32x2 -> 12x1
+/* 32x2 -> 12x1*/
 void ScaleRowDown38_2_Box_NEON(const uint8* src_ptr,
                                ptrdiff_t src_stride,
                                uint8* dst_ptr,
@@ -722,17 +721,17 @@ void ScaleRowDown34_1_Box_Any_NEON(const uint8* src_ptr,
                                    ptrdiff_t src_stride,
                                    uint8* dst_ptr,
                                    int dst_width);
-// 32 -> 12
+/* 32 -> 12*/
 void ScaleRowDown38_Any_NEON(const uint8* src_ptr,
                              ptrdiff_t src_stride,
                              uint8* dst_ptr,
                              int dst_width);
-// 32x3 -> 12x1
+/* 32x3 -> 12x1*/
 void ScaleRowDown38_3_Box_Any_NEON(const uint8* src_ptr,
                                    ptrdiff_t src_stride,
                                    uint8* dst_ptr,
                                    int dst_width);
-// 32x2 -> 12x1
+/* 32x2 -> 12x1*/
 void ScaleRowDown38_2_Box_Any_NEON(const uint8* src_ptr,
                                    ptrdiff_t src_stride,
                                    uint8* dst_ptr,
@@ -795,8 +794,7 @@ void ScaleRowDown38_3_Box_DSPR2(const uint8* src_ptr,
                                 int dst_width);
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_SCALE_ROW_H_
+#endif  /* INCLUDE_LIBYUV_SCALE_ROW_H_*/

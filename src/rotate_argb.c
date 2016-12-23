@@ -16,12 +16,11 @@
 #include "libyuv/row.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// ARGBScale has a function to copy pixels to a row, striding each source
-// pixel by a constant.
+/* ARGBScale has a function to copy pixels to a row, striding each source*/
+/* pixel by a constant.*/
 #if !defined(LIBYUV_DISABLE_X86) &&                          \
     (defined(_M_IX86) ||                                     \
      (defined(__x86_64__) && !defined(__native_client__)) || \
@@ -61,17 +60,17 @@ static void ARGBTranspose(const uint8* src,
                                int src_step, uint8* dst_ptr, int dst_width) =
       ScaleARGBRowDownEven_C;
 #if defined(HAS_SCALEARGBROWDOWNEVEN_SSE2)
-  if (TestCpuFlag(kCpuHasSSE2) && IS_ALIGNED(height, 4)) {  // Width of dest.
+  if (TestCpuFlag(kCpuHasSSE2) && IS_ALIGNED(height, 4)) {  /* Width of dest.*/
     ScaleARGBRowDownEven = ScaleARGBRowDownEven_SSE2;
   }
 #endif
 #if defined(HAS_SCALEARGBROWDOWNEVEN_NEON)
-  if (TestCpuFlag(kCpuHasNEON) && IS_ALIGNED(height, 4)) {  // Width of dest.
+  if (TestCpuFlag(kCpuHasNEON) && IS_ALIGNED(height, 4)) {  /* Width of dest.*/
     ScaleARGBRowDownEven = ScaleARGBRowDownEven_NEON;
   }
 #endif
 
-  for (i = 0; i < width; ++i) {  // column of source to row of dest.
+  for (i = 0; i < width; ++i) {  /* column of source to row of dest.*/
     ScaleARGBRowDownEven(src, 0, src_pixel_step, dst, height);
     dst += dst_stride;
     src += 4;
@@ -84,9 +83,9 @@ void ARGBRotate90(const uint8* src,
                   int dst_stride,
                   int width,
                   int height) {
-  // Rotate by 90 is a ARGBTranspose with the source read
-  // from bottom to top. So set the source pointer to the end
-  // of the buffer and flip the sign of the source stride.
+  /* Rotate by 90 is a ARGBTranspose with the source read*/
+  /* from bottom to top. So set the source pointer to the end*/
+  /* of the buffer and flip the sign of the source stride.*/
   src += src_stride * (height - 1);
   src_stride = -src_stride;
   ARGBTranspose(src, src_stride, dst, dst_stride, width, height);
@@ -98,9 +97,9 @@ void ARGBRotate270(const uint8* src,
                    int dst_stride,
                    int width,
                    int height) {
-  // Rotate by 270 is a ARGBTranspose with the destination written
-  // from bottom to top. So set the destination pointer to the end
-  // of the buffer and flip the sign of the destination stride.
+  /* Rotate by 270 is a ARGBTranspose with the destination written*/
+  /* from bottom to top. So set the destination pointer to the end*/
+  /* of the buffer and flip the sign of the destination stride.*/
   dst += dst_stride * (width - 1);
   dst_stride = -dst_stride;
   ARGBTranspose(src, src_stride, dst, dst_stride, width, height);
@@ -112,7 +111,7 @@ void ARGBRotate180(const uint8* src,
                    int dst_stride,
                    int width,
                    int height) {
-  // Swap first and last row and mirror the content. Uses a temporary row.
+  /* Swap first and last row and mirror the content. Uses a temporary row.*/
   const uint8* src_bot = src + src_stride * (height - 1);
   uint8* dst_bot = dst + dst_stride * (height - 1);
   int half_height = (height + 1) >> 1;
@@ -180,11 +179,11 @@ void ARGBRotate180(const uint8* src,
   }
 #endif
 
-  // Odd height will harmlessly mirror the middle row twice.
+  /* Odd height will harmlessly mirror the middle row twice.*/
   for (y = 0; y < half_height; ++y) {
-    ARGBMirrorRow(src, row, width);      // Mirror first row into a buffer
-    ARGBMirrorRow(src_bot, dst, width);  // Mirror last row into first row
-    CopyRow(row, dst_bot, width * 4);    // Copy first mirrored row into last
+    ARGBMirrorRow(src, row, width);      /* Mirror first row into a buffer*/
+    ARGBMirrorRow(src_bot, dst, width);  /* Mirror last row into first row*/
+    CopyRow(row, dst_bot, width * 4);    /* Copy first mirrored row into last*/
     src += src_stride;
     dst += dst_stride;
     src_bot -= src_stride;
@@ -205,7 +204,7 @@ int ARGBRotate(const uint8* src_argb,
     return -1;
   }
 
-  // Negative height means invert the image.
+  /* Negative height means invert the image.*/
   if (height < 0) {
     height = -height;
     src_argb = src_argb + (height - 1) * src_stride_argb;
@@ -214,7 +213,7 @@ int ARGBRotate(const uint8* src_argb,
 
   switch (mode) {
     case kRotate0:
-      // copy frame
+      /* copy frame*/
       return ARGBCopy(src_argb, src_stride_argb, dst_argb, dst_stride_argb,
                       width, height);
     case kRotate90:
@@ -236,6 +235,5 @@ int ARGBRotate(const uint8* src_argb,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

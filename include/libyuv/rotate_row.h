@@ -14,7 +14,6 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-namespace libyuv {
 extern "C" {
 #endif
 
@@ -22,26 +21,26 @@ extern "C" {
     (defined(__i386__) && !defined(__SSE2__))
 #define LIBYUV_DISABLE_X86
 #endif
-// MemorySanitizer does not support assembly code yet. http://crbug.com/344505
+/* MemorySanitizer does not support assembly code yet. http://crbug.com/344505*/
 #if defined(__has_feature)
 #if __has_feature(memory_sanitizer)
 #define LIBYUV_DISABLE_X86
 #endif
 #endif
-// The following are available for Visual C and clangcl 32 bit:
+/* The following are available for Visual C and clangcl 32 bit:*/
 #if !defined(LIBYUV_DISABLE_X86) && defined(_M_IX86)
 #define HAS_TRANSPOSEWX8_SSSE3
 #define HAS_TRANSPOSEUVWX8_SSE2
 #endif
 
-// The following are available for GCC 32 or 64 bit but not NaCL for 64 bit:
+/* The following are available for GCC 32 or 64 bit but not NaCL for 64 bit:*/
 #if !defined(LIBYUV_DISABLE_X86) && \
     (defined(__i386__) ||           \
      (defined(__x86_64__) && !defined(__native_client__)))
 #define HAS_TRANSPOSEWX8_SSSE3
 #endif
 
-// The following are available for 64 bit GCC but not NaCL:
+/* The following are available for 64 bit GCC but not NaCL:*/
 #if !defined(LIBYUV_DISABLE_X86) && !defined(__native_client__) && \
     defined(__x86_64__)
 #define HAS_TRANSPOSEWX8_FAST_SSSE3
@@ -58,7 +57,7 @@ extern "C" {
     defined(__mips__) && defined(__mips_dsp) && (__mips_dsp_rev >= 2)
 #define HAS_TRANSPOSEWX8_DSPR2
 #define HAS_TRANSPOSEUVWX8_DSPR2
-#endif  // defined(__mips__)
+#endif  /* defined(__mips__)*/
 
 void TransposeWxH_C(const uint8* src,
                     int src_stride,
@@ -180,8 +179,7 @@ void TransposeUVWx8_Any_DSPR2(const uint8* src,
                               int width);
 
 #ifdef __cplusplus
-}  // extern "C"
-}  // namespace libyuv
+}
 #endif
 
-#endif  // INCLUDE_LIBYUV_ROTATE_ROW_H_
+#endif  /* INCLUDE_LIBYUV_ROTATE_ROW_H_*/

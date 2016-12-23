@@ -14,7 +14,6 @@
 #include "libyuv/basic_types.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
@@ -67,6 +66,5 @@ TUVANY(TransposeUVWx8_Any_DSPR2, TransposeUVWx8_DSPR2, 7)
 #undef TUVANY
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif

@@ -10,16 +10,15 @@
 
 #include "libyuv/row.h"
 
-// This module is for GCC MSA
+/* This module is for GCC MSA*/
 #if !defined(LIBYUV_DISABLE_MSA) && defined(__mips_msa)
 #include "libyuv/macros_msa.h"
 
 #ifdef __cplusplus
-//namespace libyuv {
 extern "C" {
 #endif
 
-// Fill YUV -> RGB conversion constants into vectors
+/* Fill YUV -> RGB conversion constants into vectors*/
 #define YUVTORGB_SETUP(yuvconst, ub, vr, ug, vg, bb, bg, br, yg) \
   {                                                              \
     ub = __msa_fill_w(yuvconst->kUVToB[0]);                      \
@@ -32,7 +31,7 @@ extern "C" {
     yg = __msa_fill_w(yuvconst->kYToRgb[0]);                     \
   }
 
-// Load YUV 422 pixel data
+/* Load YUV 422 pixel data*/
 #define READYUV422(psrc_y, psrc_u, psrc_v, out_y, out_u, out_v)  \
   {                                                              \
     uint64 y_m;                                                  \
@@ -46,7 +45,7 @@ extern "C" {
     out_v = (v16u8)__msa_insert_w(zero_m, 0, (int32)v_m);        \
   }
 
-// Convert 8 pixels of YUV 420 to RGB.
+/* Convert 8 pixels of YUV 420 to RGB.*/
 #define YUVTORGB(in_y, in_u, in_v, ub, vr, ug, vg, bb, bg, br, yg, out_b, \
                  out_g, out_r)                                            \
   {                                                                       \
@@ -108,7 +107,7 @@ extern "C" {
     out_r = __msa_pckev_h((v8i16)reg5_m, (v8i16)reg4_m);                  \
   }
 
-// Pack and Store 8 ARGB values.
+/* Pack and Store 8 ARGB values.*/
 #define STOREARGB(in0, in1, in2, in3, pdst_argb)           \
   {                                                        \
     v8i16 vec0_m, vec1_m;                                  \
@@ -339,7 +338,7 @@ void I422ToRGB24Row_MSA(const uint8* src_y,
   }
 }
 
-// TODO(fbarchard): Consider AND instead of shift to isolate 5 upper bits of R.
+/* TODO(fbarchard): Consider AND instead of shift to isolate 5 upper bits of R.*/
 void I422ToRGB565Row_MSA(const uint8* src_y,
                          const uint8* src_u,
                          const uint8* src_v,
@@ -373,7 +372,7 @@ void I422ToRGB565Row_MSA(const uint8* src_y,
   }
 }
 
-// TODO(fbarchard): Consider AND instead of shift to isolate 4 upper bits of G.
+/* TODO(fbarchard): Consider AND instead of shift to isolate 4 upper bits of G.*/
 void I422ToARGB4444Row_MSA(const uint8* src_y,
                            const uint8* src_u,
                            const uint8* src_v,
@@ -1068,8 +1067,7 @@ void ARGB4444ToARGBRow_MSA(const uint8* src_argb4444,
 }
 
 #ifdef __cplusplus
-}  // extern "C"
-//}  // namespace libyuv
+}
 #endif
 
-#endif  // !defined(LIBYUV_DISABLE_MSA) && defined(__mips_msa)
+#endif  /* !defined(LIBYUV_DISABLE_MSA) && defined(__mips_msa)*/
