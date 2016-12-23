@@ -43,39 +43,55 @@ ARCH ?= x86
 ### Variables: ###
 
 CPPDEPS = -MT$@ -MF`echo $@ | sed -e 's,\.o$$,.d,'` -MD -MP
-UV_CFLAGS = -DUNA_PLATFORM_LINUX=1 -D_GNU_SOURCE -D_LARGEFILE_SOURCE \
-	-D_FILE_OFFSET_BITS=64 -I../../include -I../../src -I../../src/unix \
+YUV_CFLAGS = -DUNA_PLATFORM_LINUX=1 -D_GNU_SOURCE -D_LARGEFILE_SOURCE \
+	-D_FILE_OFFSET_BITS=64 -I../../include -I../../source \
 	$(__HC_OPTIMIZE_ENABLE_0) $(__HC_DEBUG_ENABLE_1) -D_THREAD_SAFE -pthread \
 	-fPIC -DPIC $(HC_ARCH_CFLAGS_DEFINE) -ansi -pedantic -Wall -Wextra \
 	-Wno-unused-parameter -fno-strict-aliasing $(CPPFLAGS) $(CFLAGS)
-UV_OBJECTS =  \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_async.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_core.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_dl.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_fs.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_getaddrinfo.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_getnameinfo.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_loop_watcher.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_loop.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_pipe.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_poll.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_process.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_signal.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_stream.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_tcp.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_thread.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_timer.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_tty.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_udp.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_linux_core.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_linux_inotify.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_linux_syscalls.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_proctitle.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_fs_poll.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_inet.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_threadpool.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_uv_common.o \
-	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_version.o
+YUV_OBJECTS =  \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_common.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_neon.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_neon64.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_gcc.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_win.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_argb.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_from.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_from_argb.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_jpeg.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_to_argb.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_to_i420.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_cpu_id.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_mjpeg_validate.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_planar_functions.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_any.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_argb.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_common.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_mips.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_neon.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_neon64.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_gcc.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_win.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_any.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_common.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_mips.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_msa.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_neon.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_neon64.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_gcc.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_win.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_any.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_argb.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_common.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_mips.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_neon.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_neon64.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_gcc.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_win.o \
+	../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_video_common.o
 
 ### Conditionally set variables: ###
 
@@ -171,7 +187,7 @@ all: ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_D
 
 ### Targets: ###
 
-all: ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libuv$(HC_LIB64ARCH_DEFINE).a
+all: ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libyuv$(HC_LIB64ARCH_DEFINE).a
 
 install: 
 
@@ -180,96 +196,144 @@ uninstall:
 clean: 
 	rm -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/*.o
 	rm -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/*.d
-	rm -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libuv$(HC_LIB64ARCH_DEFINE).a
+	rm -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libyuv$(HC_LIB64ARCH_DEFINE).a
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libuv$(HC_LIB64ARCH_DEFINE).a: $(UV_OBJECTS)
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libyuv$(HC_LIB64ARCH_DEFINE).a: $(YUV_OBJECTS)
 	rm -f $@
-	$(AR) rcu $@ $(UV_OBJECTS)
+	$(AR) rcu $@ $(YUV_OBJECTS)
 	$(RANLIB) $@
-	cp -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libuv$(HC_LIB64ARCH_DEFINE).a ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libuv$(HC_LIB64ARCH_DEFINE).lib
+	cp -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libyuv$(HC_LIB64ARCH_DEFINE).a ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libyuv$(HC_LIB64ARCH_DEFINE).lib
 	mkdir -p ../../../uits_build/lib$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)
-	cp -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libuv$(HC_LIB64ARCH_DEFINE).lib ../../../uits_build/lib$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)
+	cp -f ../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/libyuv$(HC_LIB64ARCH_DEFINE).lib ../../../uits_build/lib$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_async.o: ./../../src/unix/async.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare.o: ./../../src/compare.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_core.o: ./../../src/unix/core.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_common.o: ./../../src/compare_common.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_dl.o: ./../../src/unix/dl.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_neon.o: ./../../src/compare_neon.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_fs.o: ./../../src/unix/fs.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_neon64.o: ./../../src/compare_neon64.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_getaddrinfo.o: ./../../src/unix/getaddrinfo.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_gcc.o: ./../../src/compare_gcc.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_getnameinfo.o: ./../../src/unix/getnameinfo.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_compare_win.o: ./../../src/compare_win.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_loop_watcher.o: ./../../src/unix/loop-watcher.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert.o: ./../../src/convert.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_loop.o: ./../../src/unix/loop.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_argb.o: ./../../src/convert_argb.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_pipe.o: ./../../src/unix/pipe.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_from.o: ./../../src/convert_from.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_poll.o: ./../../src/unix/poll.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_from_argb.o: ./../../src/convert_from_argb.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_process.o: ./../../src/unix/process.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_jpeg.o: ./../../src/convert_jpeg.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_signal.o: ./../../src/unix/signal.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_to_argb.o: ./../../src/convert_to_argb.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_stream.o: ./../../src/unix/stream.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_convert_to_i420.o: ./../../src/convert_to_i420.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_tcp.o: ./../../src/unix/tcp.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_cpu_id.o: ./../../src/cpu_id.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_thread.o: ./../../src/unix/thread.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_mjpeg_validate.o: ./../../src/mjpeg_validate.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_timer.o: ./../../src/unix/timer.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_planar_functions.o: ./../../src/planar_functions.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_tty.o: ./../../src/unix/tty.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate.o: ./../../src/rotate.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_udp.o: ./../../src/unix/udp.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_any.o: ./../../src/rotate_any.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_linux_core.o: ./../../src/unix/linux-core.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_argb.o: ./../../src/rotate_argb.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_linux_inotify.o: ./../../src/unix/linux-inotify.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_common.o: ./../../src/rotate_common.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_linux_syscalls.o: ./../../src/unix/linux-syscalls.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_mips.o: ./../../src/rotate_mips.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_proctitle.o: ./../../src/unix/proctitle.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_neon.o: ./../../src/rotate_neon.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_fs_poll.o: ./../../src/fs-poll.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_neon64.o: ./../../src/rotate_neon64.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_inet.o: ./../../src/inet.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_gcc.o: ./../../src/rotate_gcc.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_threadpool.o: ./../../src/threadpool.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_rotate_win.o: ./../../src/rotate_win.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_uv_common.o: ./../../src/uv-common.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_any.o: ./../../src/row_any.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
-../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/uv_version.o: ./../../src/version.c
-	$(CC) -c -o $@ $(UV_CFLAGS) $(CPPDEPS) $<
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_common.o: ./../../src/row_common.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_mips.o: ./../../src/row_mips.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_msa.o: ./../../src/row_msa.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_neon.o: ./../../src/row_neon.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_neon64.o: ./../../src/row_neon64.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_gcc.o: ./../../src/row_gcc.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_row_win.o: ./../../src/row_win.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale.o: ./../../src/scale.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_any.o: ./../../src/scale_any.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_argb.o: ./../../src/scale_argb.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_common.o: ./../../src/scale_common.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_mips.o: ./../../src/scale_mips.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_neon.o: ./../../src/scale_neon.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_neon64.o: ./../../src/scale_neon64.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_gcc.o: ./../../src/scale_gcc.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_scale_win.o: ./../../src/scale_win.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
+
+../../bin$(HC_LIB64ARCH_DEFINE)/linux_$(HC_DR_DEFINE)$(HC_DR_ARCH_POSTFIX_DEFINE)$(HC_DR_ICC_DEFINE)/yuv_video_common.o: ./../../src/video_common.c
+	$(CC) -c -o $@ $(YUV_CFLAGS) $(CPPDEPS) $<
 
 .PHONY: all install uninstall clean
 

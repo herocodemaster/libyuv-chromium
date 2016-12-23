@@ -26,7 +26,7 @@ void TransposeWx8_SSSE3(const uint8* src,
                         uint8* dst,
                         int dst_stride,
                         int width) {
-  asm volatile(
+  __asm__ volatile(
       /* Read in the data from the source pointer.*/
       /* First round of bit swap.*/
       LABELALIGN
@@ -116,7 +116,7 @@ void TransposeWx8_Fast_SSSE3(const uint8* src,
                              uint8* dst,
                              int dst_stride,
                              int width) {
-  asm volatile(
+  __asm__ volatile(
       /* Read in the data from the source pointer.*/
       /* First round of bit swap.*/
       LABELALIGN
@@ -261,7 +261,7 @@ void TransposeUVWx8_SSE2(const uint8* src,
                          uint8* dst_b,
                          int dst_stride_b,
                          int width) {
-  asm volatile(
+  __asm__ volatile(
       /* Read in the data from the source pointer.*/
       /* First round of bit swap.*/
       LABELALIGN

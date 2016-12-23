@@ -43,8 +43,8 @@
                                 #endif
                                 #define INT64_F "l"
                         #else
-                                typedef unsigned long long uint64;
-                                typedef long long int64;
+                                typedef uint64_t uint64;
+                                typedef uint64 int64;
                                 #ifndef INT64_C
                                 #define INT64_C(x) x##LL
                                 #endif

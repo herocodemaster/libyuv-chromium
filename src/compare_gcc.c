@@ -23,7 +23,7 @@ extern "C" {
 
 uint32 SumSquareError_SSE2(const uint8* src_a, const uint8* src_b, int count) {
   uint32 sse;
-  asm volatile (
+  __asm__ volatile (
     "pxor      %%xmm0,%%xmm0                   \n"
     "pxor      %%xmm5,%%xmm5                   \n"
     LABELALIGN
@@ -89,7 +89,7 @@ static uvec32 kHashMul3 = {
 
 uint32 HashDjb2_SSE41(const uint8* src, int count, uint32 seed) {
   uint32 hash;
-  asm volatile (
+  __asm__ volatile (
     "movd      %2,%%xmm0                       \n"
     "pxor      %%xmm7,%%xmm7                   \n"
     "movdqa    %4,%%xmm6                       \n"

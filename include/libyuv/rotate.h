@@ -27,7 +27,7 @@ typedef enum RotationMode {
   /* Deprecated.*/
   kRotateNone = 0,
   kRotateClockwise = 90,
-  kRotateCounterClockwise = 270,
+  kRotateCounterClockwise = 270
 } RotationModeEnum;
 
 /* Rotate I420 frame.*/

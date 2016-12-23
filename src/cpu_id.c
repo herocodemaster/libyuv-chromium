@@ -73,7 +73,7 @@ void CpuId(uint32 info_eax, uint32 info_ecx, uint32* cpu_info) {
 /* GCC version uses inline x86 assembly.*/
 #else  /* defined(_MSC_VER)*/
   uint32 info_ebx, info_edx;
-  asm volatile(
+  __asm__ volatile(
 #if defined(__i386__) && defined(__PIC__)
       /* Preserve ebx for fpic 32 bit.*/
       "mov %%ebx, %%edi                          \n"
@@ -119,7 +119,7 @@ int GetXCR0() {
 #if defined(_MSC_FULL_VER) && (_MSC_FULL_VER >= 160040219)
   xcr0 = (uint32)(_xgetbv(0));  /* VS2010 SP1 required.*/
 #elif defined(__i386__) || defined(__x86_64__)
-  asm(".byte 0x0f, 0x01, 0xd0" : "=a"(xcr0) : "c"(0) : "%edx");
+  __asm__ (".byte 0x0f, 0x01, 0xd0" : "=a"(xcr0) : "c"(0) : "%edx");
 #endif  /* defined(__i386__) || defined(__x86_64__)*/
   return xcr0;
 }

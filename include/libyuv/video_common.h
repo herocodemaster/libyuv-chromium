@@ -115,7 +115,7 @@ enum FourCC {
   FOURCC_H264 = FOURCC('H', '2', '6', '4'),
 
   /* Match any fourcc.*/
-  FOURCC_ANY = -1,
+  FOURCC_ANY = -1
 };
 
 enum FourCCBpp {
@@ -169,7 +169,7 @@ enum FourCCBpp {
   FOURCC_BPP_CM24 = 24,
 
   /* Match any fourcc.*/
-  FOURCC_BPP_ANY = 0,  /* 0 means unknown.*/
+  FOURCC_BPP_ANY = 0  /* 0 means unknown.*/
 };
 
 /* Converts fourcc aliases into canonical ones.*/
