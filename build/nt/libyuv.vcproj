@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="&quot;$(UNABASE_ROOT)\inc&quot;;..\..\..\uits_build\include;..\..\include"
-				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UNA_PLATFORM_NT;UITS_CCP_DEBUG=1"
+				PreprocessorDefinitions="WIN32;_DEBUG;_WINDOWS;_USRDLL;UNA_PLATFORM_NT;UITS_CCP_DEBUG=1;COMPILER_MSVC"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
