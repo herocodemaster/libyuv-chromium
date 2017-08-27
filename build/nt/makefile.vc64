@@ -45,6 +45,9 @@ TOOL_CHAIN = vc2008
 #  [60,65,70,75]
 CUDA = 65
 
+# Build contrib librarys [0,1]
+CONTRIB = 0
+
 
 
 # -------------------------------------------------------------------------
@@ -135,6 +138,20 @@ HC_BUILD_DEFINE = $(TOOL_CHAIN)_clibs_$(HC_DR_DEFINE)_lib
 !if "$(SHARED)" == "1"
 HC_BUILD_DEFINE = $(TOOL_CHAIN)_clibd_$(HC_DR_DEFINE)_dll
 !endif
+!if "$(CONTRIB)" == "0"
+RELEASE_INC_DIR = ..\..\..\uits_build\include
+!endif
+!if "$(CONTRIB)" == "1"
+RELEASE_INC_DIR = ..\..\..\uits_build\contrib\include
+!endif
+!if "$(CONTRIB)" == "0"
+RELEASE_LIB_DIR = \
+	..\..\..\uits_build\lib$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)
+!endif
+!if "$(CONTRIB)" == "1"
+RELEASE_LIB_DIR = \
+	..\..\..\uits_build\contrib\lib$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)
+!endif
 !if "$(UNICODE)" == "0"
 __HCUNICODE_DEFINE_p = /DMBCS
 !endif
@@ -207,11 +224,11 @@ clean:
 	lib /NOLOGO /OUT:$@ @<<
 	$(LIBYUV_OBJECTS)
 <<
-	if not exist ..\..\..\uits_build\include\libyuv mkdir ..\..\..\uits_build\include\libyuv
-	copy /y ..\..\include\*.h ..\..\..\uits_build\include\libyuv
-	if not exist ..\..\..\uits_build\lib$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE) mkdir ..\..\..\uits_build\lib$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)
-	copy /y ..\..\bin$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)\libyuv$(HC_LIB64ARCH_DEFINE)$(HC_DR_POSTFIX_DEFINE).lib ..\..\..\uits_build\lib$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)
-	copy /y ..\..\bin$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)\libyuv$(HC_LIB64ARCH_DEFINE)$(HC_DR_POSTFIX_DEFINE).pdb ..\..\..\uits_build\lib$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)
+	if not exist $(RELEASE_INC_DIR)\libyuv mkdir $(RELEASE_INC_DIR)\libyuv
+	copy /y ..\..\include\*.h $(RELEASE_INC_DIR)\libyuv
+	if not exist $(RELEASE_LIB_DIR) mkdir $(RELEASE_LIB_DIR)
+	copy /y ..\..\bin$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)\libyuv$(HC_LIB64ARCH_DEFINE)$(HC_DR_POSTFIX_DEFINE).lib $(RELEASE_LIB_DIR)
+	copy /y ..\..\bin$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)\libyuv$(HC_LIB64ARCH_DEFINE)$(HC_DR_POSTFIX_DEFINE).pdb $(RELEASE_LIB_DIR)
 
 ..\..\bin$(HC_LIB64ARCH_DEFINE)\$(HC_BUILD_DEFINE)\libyuv_compare.obj: .\..\..\src\compare.c
 	$(CC) /c /nologo /TC /Fo$@ $(LIBYUV_CFLAGS) .\..\..\src\compare.c
